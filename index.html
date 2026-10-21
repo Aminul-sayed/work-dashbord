@@ -850,28 +850,9 @@
         function addEntry() {
             let year = getCurrentYear();
             
-            // প্রথমে ইউজার বর্তমানে ড্যাশবোর্ডে যে মাসটি সিলেক্ট করে রেখেছেন সেটি নেওয়া হবে,
-            // আর যদি দু'টি মাসের নাম মিলে যায়, তবে তারিখ অনুযায়ী সঠিক মাসটি সিলেক্ট করে নেবে।
-            let currentSelectedMonth = getCurrentMonth();
-            let modelMonth = getCurrentModelMonth();
-            
-            // যদি সিলেক্ট করা মাসটি কম্বাইন্ড নামের সাথে মিলে যায় তবে সেটিই রাখবে, অন্যথায় স্বয়ংক্রিয় মাস ধরবে
-            let targetMonth = currentSelectedMonth;
-            let rawDate = document.getElementById('eDate').value;
-            
-            if (rawDate) {
-                let parts = rawDate.split('-');
-                if (parts.length === 3) {
-                    let mNum = parseInt(parts[1], 10);
-                    // যদি বর্তমান সিলেক্ট করা মাসে ওই মাসের নাম না থাকে (যেমন অক্টোবরের এন্ট্রি কিন্তু সিলেক্ট করা সেপ্টেম্বর-অক্টোবর বা অক্টোবর-নভেম্বর)
-                    // সেক্ষেত্রে ইউজার বর্তমানে যে মাসটি স্ক্রিনে সিলেক্ট করে রেখেছেন সেটিতেই প্রাধান্য দেওয়া হবে যাতে ভুল মাসে না যায়।
-                    if (currentSelectedMonth.toLowerCase().includes('oct') && mNum === 10) {
-                        targetMonth = currentSelectedMonth;
-                    } else if (modelMonth) {
-                        targetMonth = modelMonth;
-                    }
-                }
-            }
+            // বর্তমান স্ক্রিনে ইউজার যে মাসটি সিলেক্ট করে রেখেছেন (যেমন: October-November), 
+            // সেটিকে সর্বোচ্চ প্রাধান্য দেওয়া হবে যাতে যে মাসে দেখতে চান ঠিক সেখানেই সেভ হয়।
+            let targetMonth = getCurrentMonth();
 
             if(!targetMonth || targetMonth === "কোনো মাস নেই") {
                 alert('দয়া করে প্রথমে একটি মাস সিলেক্ট বা তৈরি করুন!');
@@ -886,6 +867,7 @@
 
             let calculatedAmount = (road * 0.8) + (body * 0.15) + (tyre * 0.4) + (person * 1) + (waste * 0.6);
 
+            let rawDate = document.getElementById('eDate').value;
             let formattedDate = rawDate;
             if (rawDate) {
                 let parts = rawDate.split('-');
@@ -914,9 +896,6 @@
                 alert('দয়া করে আইডি এবং তারিখ পূরণ করুন!');
                 return;
             }
-
-            // ড্রপডাউন এবং ড্যাশবোর্ডে সঠিক মাসটি সিলেক্ট করে রাখা
-            document.getElementById('monthSelect').value = targetMonth;
 
             if(!allData[year]) allData[year] = {};
             if(!allData[year][currentUser]) allData[year][currentUser] = {};
@@ -950,26 +929,6 @@
             redoStack = [];
             closeModal();
             updateDashboard();
-        }
-
-        function getCurrentModelMonth() {
-            let rawDate = document.getElementById('eDate').value;
-            if (!rawDate) return getCurrentMonth();
-            let parts = rawDate.split('-');
-            if (parts.length !== 3) return getCurrentMonth();
-            
-            let mNum = parseInt(parts[1], 10);
-            let year = getCurrentYear();
-            let months = savedMonths[year] || [];
-
-            for (let m of months) {
-                let mLower = m.toLowerCase();
-                if (mNum === 9 && (mLower.includes('sep'))) return m;
-                if (mNum === 10 && (mLower.includes('oct'))) return m;
-                if (mNum === 11 && (mLower.includes('nov'))) return m;
-                if (mNum === 12 && (mLower.includes('dec'))) return m;
-            }
-            return getCurrentMonth();
         }
 
         function deleteEntry(index) {
