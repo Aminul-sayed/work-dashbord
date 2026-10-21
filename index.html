@@ -456,7 +456,15 @@
                 opt.innerHTML = y;
                 yearSelect.appendChild(opt);
             });
-            yearSelect.value = "2026";
+
+            // রানিং বছর অটো সিলেক্ট করা
+            let currentYearStr = new Date().getFullYear().toString();
+            if (savedYears.includes(currentYearStr)) {
+                yearSelect.value = currentYearStr;
+            } else if (savedYears.length > 0) {
+                yearSelect.value = savedYears[savedYears.length - 1];
+            }
+
             updateMonthDropdownForCurrentYear();
         }
 
@@ -472,6 +480,11 @@
                 opt.innerHTML = m;
                 monthSelect.appendChild(opt);
             });
+
+            // রানিং মাস বা সাম্প্রতিক মাস ড্রপডাউনের শেষ বা রানিং আইটেম হিসেবে অটো সিলেক্ট করা
+            if (months.length > 0) {
+                monthSelect.value = months[months.length - 1];
+            }
         }
 
         function getCurrentData(user) {
@@ -605,7 +618,6 @@
                 let isSelected = selectedRows.has(index);
                 let amountBgClass = isSelected ? 'bg-pink-200 text-pink-900 font-bold' : 'bg-emerald-50/50 text-emerald-600 font-semibold';
 
-                // শিট বা লোকালস্টোরেজ থেকে আসা তারিখ যদি বড় ফরম্যাটে থাকে, সেটিকে ছোট (Oct 18 26) ফরম্যাটে রূপান্তর করার ফাংশন
                 let cleanDate = item.date;
                 if (cleanDate && cleanDate.includes('GMT')) {
                     let dObj = new Date(cleanDate);
@@ -839,8 +851,9 @@
 
         function addEntry() {
             let year = getCurrentYear();
-            let month = getCurrentMonth();
-            if(!month || month === "কোনো মাস নেই") {
+            let currentSelectedMonth = getCurrentModelMonth() || getCurrentMonth();
+            
+            if(!currentSelectedMonth || currentSelectedMonth === "কোনো মাস নেই") {
                 alert('দয়া করে প্রথমে একটি মাস সিলেক্ট বা তৈরি করুন!');
                 return;
             }
@@ -856,7 +869,6 @@
             let rawDate = document.getElementById('eDate').value;
             let formattedDate = rawDate;
             if (rawDate) {
-                // তারিখ কনভার্ট করে ঠিকঠাক "Oct 18 26" ফরম্যাটে আনা হচ্ছে
                 let parts = rawDate.split('-');
                 if (parts.length === 3) {
                     let yr = parts[0].slice(-2);
@@ -886,9 +898,9 @@
 
             if(!allData[year]) allData[year] = {};
             if(!allData[year][currentUser]) allData[year][currentUser] = {};
-            if(!allData[year][currentUser][month]) allData[year][currentUser][month] = [];
+            if(!allData[year][currentUser][currentSelectedMonth]) allData[year][currentUser][currentSelectedMonth] = [];
             
-            allData[year][currentUser][month].unshift(newObj);
+            allData[year][currentUser][currentSelectedMonth].unshift(newObj);
 
             saveToLocalStorage();
 
@@ -916,6 +928,28 @@
             redoStack = [];
             closeModal();
             updateDashboard();
+        }
+
+        // সহকারী ফাংশন: ইনপুটের তারিখ অনুযায়ী সঠিক মাস সিলেক্ট বা বের করার জন্য
+        function getCurrentModelMonth() {
+            let rawDate = document.getElementById('eDate').value;
+            if (!rawDate) return getCurrentMonth();
+            let parts = rawDate.split('-');
+            if (parts.length !== 3) return getCurrentMonth();
+            
+            let mNum = parseInt(parts[1], 10);
+            let year = getCurrentYear();
+            let months = savedMonths[year] || [];
+
+            // যদি মাসের নামের মধ্যে মাসগুলোর কম্বিনেশন থাকে (যেমন: September-October বা October-November)
+            for (let m of months) {
+                let mLower = m.toLowerCase();
+                if (mNum === 9 && (mLower.includes('sep') || mLower.includes('september'))) return m;
+                if (mNum === 10 && (mLower.includes('oct') || mLower.includes('october'))) return m;
+                if (mNum === 11 && (mLower.includes('nov') || mLower.includes('november'))) return m;
+                if (mNum === 12 && (mLower.includes('dec') || mLower.includes('december'))) return m;
+            }
+            return getCurrentMonth();
         }
 
         function deleteEntry(index) {
