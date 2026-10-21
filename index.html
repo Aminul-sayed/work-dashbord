@@ -161,8 +161,8 @@
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400 text-xs font-bold pointer-events-none">🗓️ মাস:</span>
                         <select id="monthSelect" onchange="handleMonthChange()" class="w-full border border-slate-200 rounded-xl pl-16 pr-4 py-2.5 text-sm bg-slate-50/50 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 font-semibold text-slate-700 transition cursor-pointer">
-                            <option value="September-October">September-October</option>
-                            <option value="October-November">October-November</option>
+                            <option value="October">October</option>
+                            <option value="November">November</option>
                         </select>
                     </div>
 
@@ -264,7 +264,7 @@
             <h2 class="text-xl font-bold text-slate-900">📅 নতুন মাস যোগ করুন</h2>
             <div>
                 <label class="block text-sm font-semibold text-slate-700 mb-2">মাসের নাম লিখুন:</label>
-                <input type="text" id="newMonthInput" placeholder="যেমন: November" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                <input type="text" id="newMonthInput" placeholder="যেমন: December" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500">
             </div>
             <div class="flex gap-3">
                 <button onclick="addMonth()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2.5 rounded-xl text-sm font-medium transition cursor-pointer">সংরক্ষণ করুন</button>
@@ -336,12 +336,12 @@
         let freshData = {
             "2026": {
                 "aminul": {
-                    "September-October": [],
-                    "October-November": []
+                    "October": [],
+                    "November": []
                 },
                 "nazmul": {
-                    "September-October": [],
-                    "October-November": []
+                    "October": [],
+                    "November": []
                 }
             }
         };
@@ -360,7 +360,7 @@
 
         let savedMonths = JSON.parse(localStorage.getItem('dashboardMonths'));
         if (!savedMonths) {
-            savedMonths = { "2026": ["September-October", "October-November"] };
+            savedMonths = { "2026": ["October", "November"] };
             localStorage.setItem('dashboardMonths', JSON.stringify(savedMonths));
         }
 
@@ -386,7 +386,7 @@
 
             let monthsMap = {};
             for (let yr of yearsList) {
-                monthsMap[yr] = savedMonths[yr] || ["September-October", "October-November"];
+                monthsMap[yr] = savedMonths[yr] || ["October", "November"];
             }
             localStorage.setItem('dashboardMonths', JSON.stringify(monthsMap));
         }
@@ -472,11 +472,12 @@
             let monthSelect = document.getElementById('monthSelect');
             monthSelect.innerHTML = '';
 
-            let months = savedMonths[year] || ["September-October", "October-November"];
+            let months = savedMonths[year] || ["October", "November"];
             months.forEach(m => {
                 let opt = document.createElement('option');
                 opt.value = m;
-                opt.innerHTML = m;
+                // ডিসপ্লেতে দেখার সুবিধার্থে নামগুলো প্রয়োজনমতো সাজিয়ে দেখানো যেতে পারে, যেমন October-November
+                opt.innerHTML = m === "October" ? "September-October (October)" : (m === "November" ? "October-November (November)" : m);
                 monthSelect.appendChild(opt);
             });
 
@@ -689,7 +690,8 @@
 
             if (incomeChart) incomeChart.destroy();
 
-            document.getElementById('chartTitle').innerText = `📈 ইনকামের হিস্টোগ্রাম চার্ট (${userName}) - ${getCurrentMonth() || ''} (${getCurrentYear()})`;
+            let displayName = getCurrentMonth() === "October" ? "September-October" : (getCurrentMonth() === "November" ? "October-November" : getCurrentMonth());
+            document.getElementById('chartTitle').innerText = `📈 ইনকামের হিস্টোগ্রাম চার্ট (${userName}) - ${displayName} (${getCurrentYear()})`;
 
             incomeChart = new Chart(ctx, {
                 type: 'bar',
@@ -758,7 +760,7 @@
                 }
 
                 if(!savedMonths[year]) {
-                    savedMonths[year] = ["September-October", "October-November"]; 
+                    savedMonths[year] = ["October", "November"]; 
                 }
 
                 document.getElementById('newYearInput').value = '';
@@ -847,10 +849,10 @@
             }
         }
 
-        // 🌟 চূড়ান্ত সমাধান: এখানে ইউজার স্ক্রিনের ড্রপডাউনে যে মাস সিলেক্ট করে এন্ট্রি দেবেন, ঠিক সেই মাসেই ১০০% সেভ হবে।
+        // 🌟 চূড়ান্ত ও নিখুঁত সমাধান: ইউজার ড্রপডাউনে যে মাস সিলেক্ট করে এন্ট্রি দেবেন, ঠিক সেই মাসেই ১০০% সেভ হবে।
         function addEntry() {
             let year = getCurrentYear();
-            let targetMonth = getCurrentMonth(); // বর্তমান সিলেক্ট করা মাস (যেমন: October-November)
+            let targetMonth = getCurrentMonth(); // ড্রপডাউনে সিলেক্ট করা মাস (যেমন: October বা November)
 
             if(!targetMonth || targetMonth === "কোনো মাস নেই") {
                 alert('দয়া করে প্রথমে একটি মাস সিলেক্ট বা তৈরি করুন!');
@@ -1039,7 +1041,7 @@
                 if(btnAminul) btnAminul.className = inactiveClass;
                 if(btnNazmul) btnNazmul.className = activeClass;
                 if(mobileBtnAminul) mobileBtnAminul.className = inactiveClass;
-                if(mobileBtnNazmul) mobileBtnNazmul.className = activeClass;
+                if(mobileBtnNamesNazmul) mobileBtnNazmul.className = activeClass;
             }
 
             let currentDataset = getCurrentData(currentUser);
