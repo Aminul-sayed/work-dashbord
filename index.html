@@ -847,12 +847,10 @@
             }
         }
 
+        // 🌟 চূড়ান্ত সমাধান: এখানে ইউজার স্ক্রিনের ড্রপডাউনে যে মাস সিলেক্ট করে এন্ট্রি দেবেন, ঠিক সেই মাসেই ১০০% সেভ হবে।
         function addEntry() {
             let year = getCurrentYear();
-            
-            // বর্তমান স্ক্রিনে ইউজার যে মাসটি সিলেক্ট করে রেখেছেন (যেমন: October-November), 
-            // সেটিকে সর্বোচ্চ প্রাধান্য দেওয়া হবে যাতে যে মাসে দেখতে চান ঠিক সেখানেই সেভ হয়।
-            let targetMonth = getCurrentMonth();
+            let targetMonth = getCurrentMonth(); // বর্তমান সিলেক্ট করা মাস (যেমন: October-November)
 
             if(!targetMonth || targetMonth === "কোনো মাস নেই") {
                 alert('দয়া করে প্রথমে একটি মাস সিলেক্ট বা তৈরি করুন!');
@@ -901,6 +899,7 @@
             if(!allData[year][currentUser]) allData[year][currentUser] = {};
             if(!allData[year][currentUser][targetMonth]) allData[year][currentUser][targetMonth] = [];
             
+            // সরাসরি ইউজার সিলেক্ট করা মাসটিতে এন্ট্রি যোগ করা হচ্ছে
             allData[year][currentUser][targetMonth].unshift(newObj);
 
             saveToLocalStorage();
