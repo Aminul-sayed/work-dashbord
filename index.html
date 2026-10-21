@@ -3,92 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ওয়ার্ক ড্যাশবোর্ড - অ্যাপ</title>
-    <!-- Tailwind CSS CDN for styling -->
+    <title>ওয়ার্ক ড্যাশবোর্ড - অ্যাপ</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- Chart.js CDN for Histogram / Bar Chart -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- অ্যাপের ফাজভিকন বা লোগো -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
 </head>
 <body class="bg-slate-100 font-sans text-slate-800 flex h-screen overflow-hidden">
-
-    <!-- 🔹 বাম পাশের প্রিমিয়াম সাইডবার (Desktop) -->
     <aside class="w-72 bg-slate-900 text-slate-300 flex-col justify-between hidden md:flex shadow-xl border-r border-slate-800 z-20">
         <div>
-            <!-- ক্লিকযোগ্য প্রিমিয়াম লোগো -->
             <div onclick="showPage('dashboardView')" class="p-6 border-b border-slate-800 flex items-center gap-3 cursor-pointer hover:bg-slate-800/40 transition">
-                <div class="bg-blue-600 p-2.5 rounded-xl text-white shadow-md shadow-blue-900/50">
-                    📊
-                </div>
-                <div>
-                    <h1 class="text-base font-bold text-white tracking-wide">ওয়ার্ক ড্যাশবোর্ড</h1>
-                    <p class="text-xs text-slate-400">অ্যাপ ভিউ v2.0</p>
-                </div>
+                <div class="bg-blue-600 p-2.5 rounded-xl text-white shadow-md shadow-blue-900/50">📊</div>
+                <div><h1 class="text-base font-bold text-white tracking-wide">ওয়ার্ক ড্যাশবোর্ড</h1><p class="text-xs text-slate-400">অ্যাপ ভিউ v2.0</p></div>
             </div>
-
-            <!-- ইউজার সুইচিং সেকশন -->
             <div class="p-4 border-b border-slate-800">
                 <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">কর্মী নির্বাচন:</label>
                 <div class="grid grid-cols-2 gap-2 bg-slate-950 p-1.5 rounded-2xl border border-slate-800">
-                    <button id="btnAminul" onclick="switchUser('aminul')" class="py-2.5 px-3 rounded-xl text-xs font-bold transition cursor-pointer flex items-center justify-center gap-1.5 bg-blue-600 text-white shadow-sm">
-                        👤 আমিনুল
-                    </button>
-                    <button id="btnNazmul" onclick="switchUser('nazmul')" class="py-2.5 px-3 rounded-xl text-xs font-bold transition cursor-pointer flex items-center justify-center gap-1.5 text-slate-400 hover:text-white">
-                        👤 নাজমুল
-                    </button>
+                    <button id="btnAminul" onclick="switchUser('aminul')" class="py-2.5 px-3 rounded-xl text-xs font-bold transition cursor-pointer flex items-center justify-center gap-1.5 bg-blue-600 text-white shadow-sm">👤 আমিনুল</button>
+                    <button id="btnNazmul" onclick="switchUser('nazmul')" class="py-2.5 px-3 rounded-xl text-xs font-bold transition cursor-pointer flex items-center justify-center gap-1.5 text-slate-400 hover:text-white">👤 নাজমুল</button>
                 </div>
             </div>
-
-            <!-- মেনু ও নেভিগেশন -->
             <nav class="p-4 space-y-1.5">
                 <p class="text-[10px] font-bold uppercase tracking-wider text-slate-500 px-3 mb-2">মেইন মেনু</p>
-                <button onclick="showPage('dashboardView')" id="menuDashboard" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold bg-blue-600/10 text-blue-400 border border-blue-500/20 transition cursor-pointer">
-                    🏠 মূল ড্যাশবোর্ড ও চার্ট
-                </button>
-                <button onclick="openModal()" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-300 hover:bg-slate-800/60 transition cursor-pointer">
-                    ➕ নতুন এন্ট্রি দিন
-                </button>
-                <button onclick="showPage('monthPage')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-300 hover:bg-slate-800/60 transition cursor-pointer">
-                    📅 নতুন মাস যোগ করুন
-                </button>
-                <button onclick="showPage('yearPage')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-300 hover:bg-slate-800/60 transition cursor-pointer">
-                    📁 নতুন বছর যোগ করুন
-                </button>
-                <button onclick="editCurrentMonth()" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-300 hover:bg-slate-800/60 transition cursor-pointer">
-                    ✏️ মাস এডিট করুন
-                </button>
+                <button onclick="showPage('dashboardView')" id="menuDashboard" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold bg-blue-600/10 text-blue-400 border border-blue-500/20 transition cursor-pointer">🏠 মূল ড্যাশবোর্ড ও চার্ট</button>
+                <button onclick="openModal()" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-300 hover:bg-slate-800/60 transition cursor-pointer">➕ নতুন এন্ট্রি দিন</button>
+                <button onclick="openMonthModal()" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-300 hover:bg-slate-800/60 transition cursor-pointer">📅 নতুন মাস যোগ করুন</button>
+                <button onclick="openYearModal()" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-300 hover:bg-slate-800/60 transition cursor-pointer">📁 নতুন বছর যোগ করুন</button>
             </nav>
         </div>
-
-        <!-- সাইডবারের নিচে ব্যাকআপ সেকশন -->
         <div class="p-4 border-t border-slate-800 space-y-2 bg-slate-950/50">
-            <button onclick="exportData()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl text-xs font-semibold transition cursor-pointer flex items-center justify-center gap-2 shadow-sm">
-                💾 ব্যাকআপ ডাউনলোড
-            </button>
-            <button onclick="document.getElementById('restoreFile').click()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-semibold transition cursor-pointer flex items-center justify-center gap-2 shadow-sm">
-                📂 ব্যাকআপ রিস্টোর
-            </button>
+            <button onclick="exportData()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl text-xs font-semibold transition cursor-pointer flex items-center justify-center gap-2 shadow-sm">💾 ব্যাকআপ ডাউনলোড</button>
+            <button onclick="document.getElementById('restoreFile').click()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-semibold transition cursor-pointer flex items-center justify-center gap-2 shadow-sm">📂 ব্যাকআপ রিস্টোর</button>
             <input type="file" id="restoreFile" accept=".json" onchange="importData(event)" class="hidden">
         </div>
     </aside>
-
-    <!-- 🔹 মোবাইল ড্রয়ার সাইডবার (Mobile Drawer) -->
     <div id="mobileDrawer" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex">
         <div class="w-72 bg-slate-900 text-slate-300 flex flex-col justify-between shadow-2xl h-full border-r border-slate-800">
             <div>
                 <div class="p-6 border-b border-slate-800 flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <div class="bg-blue-600 p-2.5 rounded-xl text-white">📊</div>
-                        <div>
-                            <h1 class="text-base font-bold text-white">ওয়ার্ক ড্যাশবোর্ড</h1>
-                            <p class="text-xs text-slate-400">অ্যাপ ভিউ</p>
-                        </div>
-                    </div>
+                    <div class="flex items-center gap-3"><div class="bg-blue-600 p-2.5 rounded-xl text-white">📊</div><div><h1 class="text-base font-bold text-white">ওয়ার্ক ড্যাশবোর্ড</h1><p class="text-xs text-slate-400">অ্যাপ ভিউ</p></div></div>
                     <button onclick="toggleMobileDrawer()" class="text-slate-400 hover:text-white text-xl font-bold p-1">✕</button>
                 </div>
-                
-                <!-- মোবাইল ইউজার সুইচ -->
                 <div class="p-4 border-b border-slate-800">
                     <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">কর্মী নির্বাচন:</label>
                     <div class="grid grid-cols-2 gap-2 bg-slate-950 p-1.5 rounded-2xl border border-slate-800">
@@ -96,994 +50,268 @@
                         <button id="mobileBtnNazmul" onclick="switchUser('nazmul'); toggleMobileDrawer();" class="py-2.5 px-3 rounded-xl text-xs font-bold text-slate-400 hover:text-white">👤 নাজমুল</button>
                     </div>
                 </div>
-
                 <nav class="p-4 space-y-1.5">
                     <button onclick="showPage('dashboardView'); toggleMobileDrawer();" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold bg-blue-600/10 text-blue-400">🏠 মূল ড্যাশবোর্ড ও চার্ট</button>
                     <button onclick="openModal(); toggleMobileDrawer();" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-300">➕ নতুন এন্ট্রি দিন</button>
-                    <button onclick="showPage('monthPage'); toggleMobileDrawer();" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-300">📅 নতুন মাস যোগ করুন</button>
-                    <button onclick="showPage('yearPage'); toggleMobileDrawer();" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-300">📁 নতুন বছর যোগ করুন</button>
+                    <button onclick="openMonthModal(); toggleMobileDrawer();" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-300">📅 নতুন মাস যোগ করুন</button>
+                    <button onclick="openYearModal(); toggleMobileDrawer();" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-300">📁 নতুন বছর যোগ করুন</button>
                 </nav>
             </div>
-            <div class="p-4 border-t border-slate-800 space-y-2 bg-slate-950/50">
-                <button onclick="exportData()" class="w-full bg-indigo-600 text-white px-4 py-2.5 rounded-xl text-xs font-semibold">💾 ব্যাকআপ ডাউনলোড</button>
-            </div>
+            <div class="p-4 border-t border-slate-800 space-y-2 bg-slate-950/50"><button onclick="exportData()" class="w-full bg-indigo-600 text-white px-4 py-2.5 rounded-xl text-xs font-semibold">💾 ব্যাকআপ ডাউনলোড</button></div>
         </div>
         <div class="flex-1" onclick="toggleMobileDrawer()"></div>
     </div>
-
-    <!-- 🔹 ডান পাশের মূল কন্টেন্ট এরিয়া -->
     <main class="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 bg-slate-50">
-
-        <!-- মোবাইল ডিভাইসের জন্য প্রিমিয়াম অ্যাপ টপ বার -->
         <div class="md:hidden flex justify-between items-center bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
-            <div class="flex items-center gap-3">
-                <button onclick="toggleMobileDrawer()" class="bg-slate-100 p-2.5 rounded-xl text-slate-700 text-base font-bold">☰</button>
-                <div onclick="showPage('dashboardView')" class="flex items-center gap-2 cursor-pointer">
-                    <span class="text-xl">📊</span>
-                    <h1 class="text-sm font-bold text-slate-800">ওয়ার্ক ড্যাশবোর্ড</h1>
-                </div>
-            </div>
+            <div class="flex items-center gap-3"><button onclick="toggleMobileDrawer()" class="bg-slate-100 p-2.5 rounded-xl text-slate-700 text-base font-bold">☰</button><div onclick="showPage('dashboardView')" class="flex items-center gap-2 cursor-pointer"><span class="text-xl">📊</span><h1 class="text-sm font-bold text-slate-800">ওয়ার্ক ড্যাশবোর্ড</h1></div></div>
             <button onclick="openModal()" class="bg-blue-600 text-white px-4 py-2 rounded-xl text-xs font-semibold shadow-sm">+ এন্ট্রি</button>
         </div>
-
-        <!-- 🔹 অটো ব্যাকআপ ও রিস্টোর নোটিফিকেশন বার -->
-        <div id="backupNotification" class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-4 rounded-2xl shadow-md flex flex-col md:flex-row justify-between items-center gap-3">
-            <div class="flex items-center gap-3">
-                <span class="text-2xl bg-white/10 p-2 rounded-xl">🛡️</span>
-                <div>
-                    <h3 class="font-bold text-sm">নিরাপত্তা নোটিশ:</h3>
-                    <p class="text-xs opacity-90">প্রতিটি পরিবর্তনে ডেটা অটো-ব্যাকআপ হয় এবং সরাসরি গুগল শিটে সেভ হয়।</p>
-                </div>
-            </div>
-            <div class="flex gap-2">
-                <button onclick="document.getElementById('restoreFile').click()" class="bg-white text-blue-700 hover:bg-blue-50 px-4 py-2 rounded-xl text-xs font-semibold transition cursor-pointer shadow-sm">
-                    📂 রিস্টোর করুন
-                </button>
-            </div>
-        </div>
-
-        <!-- Main Dashboard View -->
         <div id="dashboardView" class="space-y-6">
-            
-            <!-- 🔹 ফিল্টার ও কন্ট্রোল প্যানেল -->
             <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col md:flex-row justify-between items-center gap-4">
-                
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full">
-                    <!-- বছর ফিল্টার -->
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400 text-xs font-bold pointer-events-none">📅 বছর:</span>
-                        <select id="yearSelect" onchange="handleYearChange()" class="w-full border border-slate-200 rounded-xl pl-16 pr-4 py-2.5 text-sm bg-slate-50/50 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 font-semibold text-slate-700 transition cursor-pointer">
-                            <option value="2026">2026</option>
-                        </select>
-                    </div>
-
-                    <!-- মাস ফিল্টার -->
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400 text-xs font-bold pointer-events-none">🗓️ মাস:</span>
-                        <select id="monthSelect" onchange="handleMonthChange()" class="w-full border border-slate-200 rounded-xl pl-16 pr-4 py-2.5 text-sm bg-slate-50/50 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 font-semibold text-slate-700 transition cursor-pointer">
-                            <option value="October">October</option>
-                            <option value="November">November</option>
-                        </select>
-                    </div>
-
-                    <!-- সার্চ বক্স -->
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400 text-xs font-bold pointer-events-none">🔍 খুঁজুন:</span>
-                        <input type="text" id="searchInput" oninput="filterTable()" placeholder="আইডি বা তারিখ..." class="w-full border border-slate-200 rounded-xl pl-20 pr-4 py-2.5 text-sm bg-slate-50/50 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 font-semibold text-slate-700 transition">
-                    </div>
+                    <div class="relative"><span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400 text-xs font-bold pointer-events-none">📅 বছর:</span><select id="yearSelect" onchange="handleYearChange()" class="w-full border border-slate-200 rounded-xl pl-16 pr-4 py-2.5 text-sm bg-slate-50/50 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 font-semibold text-slate-700 transition cursor-pointer"></select></div>
+                    <div class="relative"><span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400 text-xs font-bold pointer-events-none">🗓️ মাস:</span><select id="monthSelect" onchange="handleMonthChange()" class="w-full border border-slate-200 rounded-xl pl-16 pr-4 py-2.5 text-sm bg-slate-50/50 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 font-semibold text-slate-700 transition cursor-pointer"></select></div>
+                    <div class="relative"><span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400 text-xs font-bold pointer-events-none">🔍 খুঁজুন:</span><input type="text" id="searchInput" oninput="filterTable()" placeholder="আইডি বা তারিখ..." class="w-full border border-slate-200 rounded-xl pl-20 pr-4 py-2.5 text-sm bg-slate-50/50 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 font-semibold text-slate-700 transition"></div>
                 </div>
-
-                <!-- আনডু ও রিডু বাটন -->
                 <div class="flex items-center gap-1.5 bg-slate-100 p-1.5 rounded-2xl border border-slate-200 shrink-0">
-                    <button id="undoBtn" onclick="undoAction()" disabled title="আনডু (Undo)" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-400 bg-white shadow-sm transition cursor-not-allowed text-base">
-                        ↩️
-                    </button>
-                    <button id="redoBtn" onclick="redoAction()" disabled title="রিডু (Redo)" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-400 bg-white shadow-sm transition cursor-not-allowed text-base">
-                        ↪️
-                    </button>
+                    <button id="undoBtn" onclick="undoAction()" disabled title="আনডু (Undo)" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-400 bg-white shadow-sm transition cursor-not-allowed text-base">↩️</button>
+                    <button id="redoBtn" onclick="redoAction()" disabled title="রিডু (Redo)" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-400 bg-white shadow-sm transition cursor-not-allowed text-base">↪️</button>
                 </div>
             </div>
-
-            <!-- 🔹 অ্যামাউন্ট সামারি কার্ড -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div class="bg-gradient-to-br from-purple-600 to-purple-700 text-white p-6 rounded-2xl shadow-md shadow-purple-900/10 flex flex-col justify-between">
-                    <span class="text-xs font-semibold opacity-90 uppercase tracking-wider">দু'জনের মোট অ্যামাউন্ট:</span>
-                    <span id="combinedTotal" class="text-2xl font-bold mt-2">৳ 0.00</span>
-                </div>
-                <div class="bg-gradient-to-br from-teal-600 to-teal-700 text-white p-6 rounded-2xl shadow-md shadow-teal-900/10 flex flex-col justify-between">
-                    <span class="text-xs font-semibold opacity-90 uppercase tracking-wider">aminul-এর মোট অ্যামাউন্ট:</span>
-                    <span id="aminulTotal" class="text-2xl font-bold mt-2">৳ 0.00</span>
-                </div>
-                <div class="bg-gradient-to-br from-indigo-600 to-indigo-700 text-white p-6 rounded-2xl shadow-md shadow-indigo-900/10 flex flex-col justify-between">
-                    <span class="text-xs font-semibold opacity-90 uppercase tracking-wider">Nazmul-এর মোট অ্যামাউন্ট:</span>
-                    <span id="nazmulTotal" class="text-2xl font-bold mt-2">৳ 0.00</span>
-                </div>
-                <div class="bg-gradient-to-br from-pink-600 to-pink-700 text-white p-6 rounded-2xl shadow-md shadow-pink-900/10 flex flex-col justify-between">
-                    <span class="text-xs font-semibold opacity-90 uppercase tracking-wider">সিলেক্ট করা যোগফল:</span>
-                    <span id="selectedTotal" class="text-2xl font-bold mt-2">৳ 0.00</span>
-                </div>
+                <div class="bg-gradient-to-br from-purple-600 to-purple-700 text-white p-6 rounded-2xl shadow-md shadow-purple-900/10 flex flex-col justify-between"><span class="text-xs font-semibold opacity-90 uppercase tracking-wider">দু'জনের মোট অ্যামাউন্ট:</span><span id="combinedTotal" class="text-2xl font-bold mt-2">৳ 0.00</span></div>
+                <div class="bg-gradient-to-br from-teal-600 to-teal-700 text-white p-6 rounded-2xl shadow-md shadow-teal-900/10 flex flex-col justify-between"><span class="text-xs font-semibold opacity-90 uppercase tracking-wider">aminul-এর মোট অ্যামাউন্ট:</span><span id="aminulTotal" class="text-2xl font-bold mt-2">৳ 0.00</span></div>
+                <div class="bg-gradient-to-br from-indigo-600 to-indigo-700 text-white p-6 rounded-2xl shadow-md shadow-indigo-900/10 flex flex-col justify-between"><span class="text-xs font-semibold opacity-90 uppercase tracking-wider">Nazmul-এর মোট অ্যামাউন্ট:</span><span id="nazmulTotal" class="text-2xl font-bold mt-2">৳ 0.00</span></div>
+                <div class="bg-gradient-to-br from-pink-600 to-pink-700 text-white p-6 rounded-2xl shadow-md shadow-pink-900/10 flex flex-col justify-between"><span class="text-xs font-semibold opacity-90 uppercase tracking-wider">সিলেক্ট করা যোগফল:</span><span id="selectedTotal" class="text-2xl font-bold mt-2">৳ 0.00</span></div>
             </div>
-
-            <!-- Histogram Chart Section -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 space-y-4">
-                <div class="flex justify-between items-center">
-                    <h2 id="chartTitle" class="text-sm font-bold text-slate-900 flex items-center gap-2">
-                        📈 ইনকামের হিস্টোগ্রাম চার্ট (aminul)
-                    </h2>
-                    <button onclick="toggleChartVisibility()" id="toggleChartBtn" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer">
-                        👁️ চার্ট লুকান
-                    </button>
-                </div>
-                <div id="chartContainer" class="relative h-52 w-full transition-all">
-                    <canvas id="incomeChart"></canvas>
-                </div>
+                <div class="flex justify-between items-center"><h2 id="chartTitle" class="text-sm font-bold text-slate-900 flex items-center gap-2">📈 ইনকামের হিস্টোগ্রাম চার্ট (aminul)</h2><button onclick="toggleChartVisibility()" id="toggleChartBtn" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer">👁️ চার্ট লুকান</button></div>
+                <div id="chartContainer" class="relative h-52 w-full transition-all"><canvas id="incomeChart"></canvas></div>
             </div>
-
-            <!-- Data Table Section -->
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse text-sm">
-                        <thead>
-                            <tr class="bg-slate-50 border-b border-slate-200 text-slate-600 font-semibold">
-                                <th class="p-3.5">আইডি (A)</th>
-                                <th class="p-3.5">রোড (B)</th>
-                                <th class="p-3.5">ট্রাক বডি (C)</th>
-                                <th class="p-3.5">টায়ার (D)</th>
-                                <th class="p-3.5">পারসন (E)</th>
-                                <th class="p-3.5">যানবাহন ময়লা (F)</th>
-                                <th class="p-3.5">তারিখ (G)</th>
-                                <th id="tableHeaderTotal" class="p-3.5 bg-emerald-50 text-emerald-800">অ্যামাউন্ট (H - অটো)<br><span class="text-xs font-normal">টোটাল: ৳ 0.00</span></th>
-                                <th class="p-3.5">টাস্ক সাইজ (I)</th>
-                                <th class="p-3.5">নাম (Name)</th>
-                                <th class="p-3.5 text-center">অ্যাকশন</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tableBody" class="divide-y divide-slate-100 text-slate-700">
-                            <!-- Dynamic Rows -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden"><div class="overflow-x-auto"><table class="w-full text-left border-collapse text-sm">
+                <thead><tr class="bg-slate-50 border-b border-slate-200 text-slate-600 font-semibold">
+                    <th class="p-3.5">আইডি (A)</th><th class="p-3.5">রোড (B)</th><th class="p-3.5">ট্রাক বডি (C)</th><th class="p-3.5">টায়ার (D)</th><th class="p-3.5">পারসন (E)</th><th class="p-3.5">যানবাহন ময়লা (F)</th><th class="p-3.5">তারিখ (G)</th><th id="tableHeaderTotal" class="p-3.5 bg-emerald-50 text-emerald-800">অ্যামাউন্ট (H - অটো)<br><span class="text-xs font-normal">টোটাল: ৳ 0.00</span></th><th class="p-3.5">টাস্ক সাইজ (I)</th><th class="p-3.5">নাম (Name)</th><th class="p-3.5 text-center">অ্যাকশন</th>
+                </tr></thead><tbody id="tableBody" class="divide-y divide-slate-100 text-slate-700"></tbody>
+            </table></div></div>
         </div>
-
-        <!-- 📁 নতুন বছর যোগ করার পেজ -->
-        <div id="yearPage" class="hidden bg-white p-8 rounded-2xl shadow-sm border border-slate-200/80 max-w-xl mx-auto space-y-6">
-            <h2 class="text-xl font-bold text-slate-900">📁 নতুন বছর যোগ করুন</h2>
-            <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-2">বছরের নাম লিখুন:</label>
-                <input type="text" id="newYearInput" placeholder="যেমন: 2027" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-purple-500">
-            </div>
-            <div class="flex gap-3">
-                <button onclick="addYear()" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2.5 rounded-xl text-sm font-medium transition cursor-pointer">সংরক্ষণ করুন</button>
-                <button onclick="showPage('dashboardView')" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-2.5 rounded-xl text-sm font-medium transition cursor-pointer">ফিরে যান</button>
-            </div>
-        </div>
-
-        <!-- 📅 নতুন মাস যোগ করার পেজ -->
-        <div id="monthPage" class="hidden bg-white p-8 rounded-2xl shadow-sm border border-slate-200/80 max-w-xl mx-auto space-y-6">
-            <h2 class="text-xl font-bold text-slate-900">📅 নতুন মাস যোগ করুন</h2>
-            <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-2">মাসের নাম লিখুন:</label>
-                <input type="text" id="newMonthInput" placeholder="যেমন: December" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500">
-            </div>
-            <div class="flex gap-3">
-                <button onclick="addMonth()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2.5 rounded-xl text-sm font-medium transition cursor-pointer">সংরক্ষণ করুন</button>
-                <button onclick="showPage('dashboardView')" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-2.5 rounded-xl text-sm font-medium transition cursor-pointer">ফিরে যান</button>
-            </div>
-        </div>
-
     </main>
-
-    <!-- 🔹 নতুন এন্ট্রি পপ-আপ মোডাল -->
     <div id="entryModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white p-8 rounded-3xl shadow-2xl border border-slate-100 max-w-xl w-full space-y-5 animate-in fade-in zoom-in duration-200">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-4">
-                <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">➕ নতুন এন্ট্রি দিন</h2>
-                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-700 font-bold text-lg p-1">✕</button>
-            </div>
+            <div class="flex justify-between items-center border-b border-slate-100 pb-4"><h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">➕ নতুন এন্ট্রি দিন</h2><button onclick="closeModal()" class="text-slate-400 hover:text-slate-700 font-bold text-lg p-1">✕</button></div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-1">আইডি (ID):</label>
-                    <input type="text" id="eId" placeholder="আইডি লিখুন" class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-1">রোড (Road):</label>
-                    <input type="number" id="eRoad" placeholder="রোড লিখুন" class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-1">ট্রাক বডি:</label>
-                    <input type="number" id="eBody" placeholder="ট্রাক বডি" class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-1">টায়ার:</label>
-                    <input type="number" id="eTyre" placeholder="টায়ার" class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-1">পারসন:</label>
-                    <input type="number" id="ePerson" placeholder="পারসন" class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-1">যানবাহন ময়লা:</label>
-                    <input type="number" id="eWaste" placeholder="যানবাহন ময়লা" class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-1">তারিখ:</label>
-                    <input type="date" id="eDate" class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-1">টাস্ক সাইজ:</label>
-                    <input type="number" id="eTask" placeholder="টাস্ক সাইজ" class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
+                <div><label class="block text-xs font-semibold text-slate-500 mb-1">আইডি (ID):</label><input type="text" id="eId" placeholder="আইডি লিখুন" class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500"></div>
+                <div><label class="block text-xs font-semibold text-slate-500 mb-1">রোড (Road):</label><input type="number" id="eRoad" placeholder="রোড লিখুন" class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500"></div>
+                <div><label class="block text-xs font-semibold text-slate-500 mb-1">ট্রাক বডি:</label><input type="number" id="eBody" placeholder="ট্রাক বডি" class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500"></div>
+                <div><label class="block text-xs font-semibold text-slate-500 mb-1">টায়ার:</label><input type="number" id="eTyre" placeholder="টায়ার" class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500"></div>
+                <div><label class="block text-xs font-semibold text-slate-500 mb-1">পারসন:</label><input type="number" id="ePerson" placeholder="পারসন" class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500"></div>
+                <div><label class="block text-xs font-semibold text-slate-500 mb-1">যানবাহন ময়লা:</label><input type="number" id="eWaste" placeholder="যানবাহন ময়লা" class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500"></div>
+                <div><label class="block text-xs font-semibold text-slate-500 mb-1">তারিখ:</label><input type="date" id="eDate" class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500"></div>
+                <div><label class="block text-xs font-semibold text-slate-500 mb-1">টাস্ক সাইজ:</label><input type="number" id="eTask" placeholder="টাস্ক সাইজ" class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500"></div>
             </div>
-            <div class="flex gap-3 pt-2 border-t border-slate-100">
-                <button onclick="addEntry()" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-sm font-semibold transition cursor-pointer shadow-sm">এন্ট্রি সংরক্ষণ করুন</button>
-                <button onclick="closeModal()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 px-6 py-3 rounded-xl text-sm font-semibold transition cursor-pointer">বাতিল করুন</button>
-            </div>
+            <div class="flex gap-3 pt-2 border-t border-slate-100"><button onclick="addEntry()" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-sm font-semibold transition cursor-pointer shadow-sm">এন্ট্রি সংরক্ষণ করুন</button><button onclick="closeModal()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 px-6 py-3 rounded-xl text-sm font-semibold transition cursor-pointer">বাতিল করুন</button></div>
         </div>
     </div>
-
-    <!-- JavaScript for Interactivity -->
-    <script>
-        let currentUser = 'aminul';
-        let incomeChart;
-
-        let undoStack = [];
-        let redoStack = [];
-        let selectedRows = new Set();
-        
-        let scriptURL = 'https://script.google.com/macros/s/AKfycbxSyur2n0fo0qrexHtYFaTJi0qWqxenVxl10NSwRfQL5rQjRvmmYFtUKSrOEAPI-y_fHQ/exec';
-
-        let freshData = {
-            "2026": {
-                "aminul": {
-                    "October": [],
-                    "November": []
-                },
-                "nazmul": {
-                    "October": [],
-                    "November": []
-                }
-            }
-        };
-
-        let allData = JSON.parse(localStorage.getItem('dashboardData'));
-        if (!allData) {
-            allData = freshData;
-            localStorage.setItem('dashboardData', JSON.stringify(allData));
-        }
-
-        let savedYears = JSON.parse(localStorage.getItem('dashboardYears'));
-        if (!savedYears) {
-            savedYears = ["2026"];
-            localStorage.setItem('dashboardYears', JSON.stringify(savedYears));
-        }
-
-        let savedMonths = JSON.parse(localStorage.getItem('dashboardMonths'));
-        if (!savedMonths) {
-            savedMonths = { "2026": ["October", "November"] };
-            localStorage.setItem('dashboardMonths', JSON.stringify(savedMonths));
-        }
-
-        function getCurrentYear() {
-            let select = document.getElementById('yearSelect');
-            return select ? select.value : "2026";
-        }
-
-        function getCurrentMonth() {
-            let select = document.getElementById('monthSelect');
-            return select ? select.value : "";
-        }
-
-        function saveToLocalStorage() {
-            localStorage.setItem('dashboardData', JSON.stringify(allData));
-            
-            let yearsList = [];
-            let yearSelect = document.getElementById('yearSelect');
-            for (let opt of yearSelect.options) {
-                yearsList.push(opt.value);
-            }
-            localStorage.setItem('dashboardYears', JSON.stringify(yearsList));
-
-            let monthsMap = {};
-            for (let yr of yearsList) {
-                monthsMap[yr] = savedMonths[yr] || ["October", "November"];
-            }
-            localStorage.setItem('dashboardMonths', JSON.stringify(monthsMap));
-        }
-
-        function exportData() {
-            let exportObj = { allData: allData, years: savedYears, months: savedMonths };
-            let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj, null, 2));
-            let downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", "dashboard_backup_" + new Date().toISOString().slice(0,10) + ".json");
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
-            alert('ব্যাকআপ ফাইলটি ডাউনলোড ফোল্ডারে সেভ হয়েছে!');
-        }
-
-        function importData(event) {
-            let file = event.target.files[0];
-            if (!file) return;
-
-            let reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    let importedObj = JSON.parse(e.target.result);
-                    if (importedObj.allData) {
-                        allData = importedObj.allData;
-                        localStorage.setItem('dashboardData', JSON.stringify(allData));
-
-                        if (importedObj.years) {
-                            savedYears = importedObj.years;
-                            let yearSelect = document.getElementById('yearSelect');
-                            yearSelect.innerHTML = '';
-                            savedYears.forEach(y => {
-                                let opt = document.createElement('option');
-                                opt.value = y;
-                                opt.innerHTML = y;
-                                yearSelect.appendChild(opt);
-                            });
-                            localStorage.setItem('dashboardYears', JSON.stringify(savedYears));
-                        }
-
-                        if (importedObj.months) {
-                            savedMonths = importedObj.months;
-                            localStorage.setItem('dashboardMonths', JSON.stringify(savedMonths));
-                        }
-
-                        initYearsAndMonths();
-                        alert('সফলভাবে ব্যাকআপ ডেটা রিস্টোর করা হয়েছে!');
-                        updateDashboard();
-                    } else {
-                        alert('ফাইলটির ফরম্যাট সঠিক নয়!');
-                    }
-                } catch (error) {
-                    alert('ডেটা রিড করতে সমস্যা হয়েছে!');
-                }
-            };
-            reader.readAsText(file);
-            event.target.value = '';
-        }
-
-        function initYearsAndMonths() {
-            let yearSelect = document.getElementById('yearSelect');
-            yearSelect.innerHTML = '';
-            savedYears.forEach(y => {
-                let opt = document.createElement('option');
-                opt.value = y;
-                opt.innerHTML = y;
-                yearSelect.appendChild(opt);
-            });
-
-            let currentYearStr = new Date().getFullYear().toString();
-            if (savedYears.includes(currentYearStr)) {
-                yearSelect.value = currentYearStr;
-            } else if (savedYears.length > 0) {
-                yearSelect.value = savedYears[savedYears.length - 1];
-            }
-
-            updateMonthDropdownForCurrentYear();
-        }
-
-        function updateMonthDropdownForCurrentYear() {
-            let year = getCurrentYear();
-            let monthSelect = document.getElementById('monthSelect');
-            monthSelect.innerHTML = '';
-
-            let months = savedMonths[year] || ["October", "November"];
-            months.forEach(m => {
-                let opt = document.createElement('option');
-                opt.value = m;
-                // ডিসপ্লেতে দেখার সুবিধার্থে নামগুলো প্রয়োজনমতো সাজিয়ে দেখানো যেতে পারে, যেমন October-November
-                opt.innerHTML = m === "October" ? "September-October (October)" : (m === "November" ? "October-November (November)" : m);
-                monthSelect.appendChild(opt);
-            });
-
-            if (months.length > 0) {
-                monthSelect.value = months[months.length - 1];
-            }
-        }
-
-        function getCurrentData(user) {
-            let year = getCurrentYear();
-            let month = getCurrentMonth();
-            if (!allData[year]) allData[year] = {};
-            if (!allData[year][user]) allData[year][user] = {};
-            if (!allData[year][user][month]) allData[year][user][month] = [];
-            return allData[year][user][month];
-        }
-
-        function showPage(pageId) {
-            document.getElementById('dashboardView').classList.add('hidden');
-            document.getElementById('yearPage').classList.add('hidden');
-            document.getElementById('monthPage').classList.add('hidden');
-
-            document.getElementById(pageId).classList.remove('hidden');
-            if(pageId === 'dashboardView') {
-                updateDashboard();
-            }
-        }
-
-        function openModal() {
-            let month = getCurrentMonth();
-            if(!month || month === "কোনো মাস নেই") {
-                alert('দয়া করে প্রথমে একটি মাস সিলেক্ট বা তৈরি করুন!');
-                return;
-            }
-            document.getElementById('entryModal').classList.remove('hidden');
-            document.getElementById('entryModal').classList.add('flex');
-            document.getElementById('eDate').value = new Date().toISOString().slice(0, 10);
-        }
-
-        function closeModal() {
-            document.getElementById('entryModal').classList.add('hidden');
-            document.getElementById('entryModal').classList.remove('flex');
-            document.querySelectorAll('#entryModal input').forEach(input => input.value = '');
-        }
-
-        function toggleMobileDrawer() {
-            let drawer = document.getElementById('mobileDrawer');
-            if (drawer.classList.contains('hidden')) {
-                drawer.classList.remove('hidden');
-            } else {
-                drawer.classList.add('hidden');
-            }
-        }
-
-        function handleYearChange() {
-            updateMonthDropdownForCurrentYear();
-            selectedRows.clear();
-            updateSelectedTotal();
-            updateDashboard();
-        }
-
-        function handleMonthChange() {
-            selectedRows.clear();
-            updateSelectedTotal();
-            updateDashboard();
-        }
-
-        function updateDashboard() {
-            let currentDataset = getCurrentData(currentUser);
-            renderTable(currentDataset);
-            updateChart(currentDataset, currentUser === 'aminul' ? 'aminul' : 'Nazmul');
-            updateUndoRedoButtons();
-            updateSelectedTotal();
-        }
-
-        function toggleChartVisibility() {
-            let container = document.getElementById('chartContainer');
-            let btn = document.getElementById('toggleChartBtn');
-            if (container.classList.contains('hidden')) {
-                container.classList.remove('hidden');
-                btn.innerHTML = '👁️ চার্ট লুকান';
-                btn.className = "bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer";
-            } else {
-                container.classList.add('hidden');
-                btn.innerHTML = '📈 চার্ট দেখান';
-                btn.className = "bg-blue-50 hover:bg-blue-100 text-blue-700 px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer";
-            }
-        }
-
-        function updateUndoRedoButtons() {
-            let undoBtn = document.getElementById('undoBtn');
-            let redoBtn = document.getElementById('redoBtn');
-
-            if (undoStack.length > 0) {
-                undoBtn.disabled = false;
-                undoBtn.className = "w-10 h-10 flex items-center justify-center rounded-xl text-slate-700 bg-white hover:bg-slate-50 shadow-sm transition cursor-pointer text-base";
-            } else {
-                undoBtn.disabled = true;
-                undoBtn.className = "w-10 h-10 flex items-center justify-center rounded-xl text-slate-300 bg-white/50 shadow-none transition cursor-not-allowed text-base";
-            }
-
-            if (redoStack.length > 0) {
-                redoBtn.disabled = false;
-                redoBtn.className = "w-10 h-10 flex items-center justify-center rounded-xl text-slate-700 bg-white hover:bg-slate-50 shadow-sm transition cursor-pointer text-base";
-            } else {
-                redoBtn.disabled = true;
-                redoBtn.className = "w-10 h-10 flex items-center justify-center rounded-xl text-slate-300 bg-white/50 shadow-none transition cursor-not-allowed text-base";
-            }
-        }
-
-        function calculateTotals() {
-            let year = getCurrentYear();
-            let month = getCurrentMonth();
-            
-            let aminulList = (allData[year] && allData[year].aminul && allData[year].aminul[month]) ? allData[year].aminul[month] : [];
-            let nazmulList = (allData[year] && allData[year].nazmul && allData[year].nazmul[month]) ? allData[year].nazmul[month] : [];
-
-            let aminulSum = aminulList.reduce((acc, item) => acc + item.amount, 0);
-            let nazmulSum = nazmulList.reduce((acc, item) => acc + item.amount, 0);
-            let combinedSum = aminulSum + nazmulSum;
-
-            document.getElementById('aminulTotal').innerText = `৳ ${aminulSum.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
-            document.getElementById('nazmulTotal').innerText = `৳ ${nazmulSum.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
-            document.getElementById('combinedTotal').innerText = `৳ ${combinedSum.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
-
-            let activeSum = currentUser === 'aminul' ? aminulSum : nazmulSum;
-            document.getElementById('tableHeaderTotal').innerHTML = `অ্যামাউন্ট (H - অটো)<br><span class="text-xs font-normal">টোটাল: ৳ ${activeSum.toLocaleString('en-US', {minimumFractionDigits: 2})}</span>`;
-        }
-
-        function renderTable(data) {
-            const tbody = document.getElementById('tableBody');
-            tbody.innerHTML = '';
-            data.forEach((item, index) => {
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50/80 transition";
-                
-                let isSelected = selectedRows.has(index);
-                let amountBgClass = isSelected ? 'bg-pink-200 text-pink-900 font-bold' : 'bg-emerald-50/50 text-emerald-600 font-semibold';
-
-                let cleanDate = item.date;
-                if (cleanDate && cleanDate.includes('GMT')) {
-                    let dObj = new Date(cleanDate);
-                    if (!isNaN(dObj)) {
-                        let mNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-                        cleanDate = `${mNames[dObj.getMonth()]} ${dObj.getDate()} ${dObj.getFullYear().toString().slice(-2)}`;
-                    }
-                }
-
-                tr.innerHTML = `
-                    <td class="p-3.5 font-medium">ID: ${item.id}</td>
-                    <td class="p-3.5">${item.road}</td>
-                    <td class="p-3.5">${item.body}</td>
-                    <td class="p-3.5">${item.tyre}</td>
-                    <td class="p-3.5">${item.person}</td>
-                    <td class="p-3.5">${item.waste}</td>
-                    <td class="p-3.5">${cleanDate}</td>
-                    <td class="p-3.5 ${amountBgClass} cursor-pointer transition select-none" onclick="toggleAmountSelection(${index}, this, ${item.amount})">${item.amount}</td>
-                    <td class="p-3.5">${item.task}</td>
-                    <td class="p-3.5 font-medium text-slate-800">${currentUser}</td>
-                    <td class="p-3.5 text-center">
-                        <button onclick="deleteEntry(${index})" class="text-red-500 hover:text-red-700 text-xs font-medium bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-lg transition cursor-pointer">মুছুন</button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-            calculateTotals();
-        }
-
-        function toggleAmountSelection(index, cellElement, amount) {
-            if (selectedRows.has(index)) {
-                selectedRows.delete(index);
-                cellElement.className = "p-3.5 bg-emerald-50/50 text-emerald-600 font-semibold cursor-pointer transition select-none";
-            } else {
-                selectedRows.add(index);
-                cellElement.className = "p-3.5 bg-pink-200 text-pink-900 font-bold cursor-pointer transition select-none";
-            }
-            updateSelectedTotal();
-        }
-
-        function updateSelectedTotal() {
-            let currentDataset = getCurrentData(currentUser);
-            let sum = 0;
-            selectedRows.forEach(index => {
-                if (currentDataset[index]) sum += currentDataset[index].amount;
-            });
-            document.getElementById('selectedTotal').innerText = `৳ ${sum.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
-        }
-
-        function updateChart(data, userName) {
-            const ctx = document.getElementById('incomeChart').getContext('2d');
-
-            let dateWiseAmounts = {};
-            data.forEach(item => {
-                let d = item.date;
-                if (d && d.includes('GMT')) {
-                    let dObj = new Date(d);
-                    if (!isNaN(dObj)) {
-                        let mNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-                        d = `${mNames[dObj.getMonth()]} ${dObj.getDate()} ${dObj.getFullYear().toString().slice(-2)}`;
-                    }
-                }
-                if (!dateWiseAmounts[d]) {
-                    dateWiseAmounts[d] = 0;
-                }
-                dateWiseAmounts[d] += item.amount;
-            });
-
-            const labels = Object.keys(dateWiseAmounts);
-            const amounts = Object.values(dateWiseAmounts);
-
-            if (incomeChart) incomeChart.destroy();
-
-            let displayName = getCurrentMonth() === "October" ? "September-October" : (getCurrentMonth() === "November" ? "October-November" : getCurrentMonth());
-            document.getElementById('chartTitle').innerText = `📈 ইনকামের হিস্টোগ্রাম চার্ট (${userName}) - ${displayName} (${getCurrentYear()})`;
-
-            incomeChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'মোট অ্যামাউন্ট',
-                        data: amounts,
-                        backgroundColor: userName === 'aminul' ? '#0284c7' : '#6366f1',
-                        borderRadius: 6
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: { y: { beginAtZero: true } }
-                }
-            });
-        }
-
-        function switchUser(user) {
-            currentUser = user;
-            selectedRows.clear();
-            const btnAminul = document.getElementById('btnAminul');
-            const btnNazmul = document.getElementById('btnNazmul');
-            const mobileBtnAminul = document.getElementById('mobileBtnAminul');
-            const mobileBtnNazmul = document.getElementById('mobileBtnNazmul');
-
-            const activeClass = "py-2.5 px-3 rounded-xl text-xs font-bold transition cursor-pointer flex items-center justify-center gap-1.5 bg-blue-600 text-white shadow-sm";
-            const inactiveClass = "py-2.5 px-3 rounded-xl text-xs font-bold transition cursor-pointer flex items-center justify-center gap-1.5 text-slate-400 hover:text-white";
-
-            if (user === 'aminul') {
-                if(btnAminul) btnAminul.className = activeClass;
-                if(btnNazmul) btnNazmul.className = inactiveClass;
-                if(mobileBtnAminul) mobileBtnAminul.className = activeClass;
-                if(mobileBtnNazmul) mobileBtnNazmul.className = inactiveClass;
-            } else {
-                if(btnAminul) btnAminul.className = inactiveClass;
-                if(btnNazmul) btnNazmul.className = activeClass;
-                if(mobileBtnAminul) mobileBtnAminul.className = inactiveClass;
-                if(mobileBtnNazmul) mobileBtnNazmul.className = activeClass;
-            }
-            updateDashboard();
-        }
-
-        function filterTable() {
-            let query = document.getElementById('searchInput').value.toLowerCase();
-            let currentDataset = getCurrentData(currentUser);
-            let filtered = currentDataset.filter(item => 
-                item.id.toString().toLowerCase().includes(query) || item.date.toLowerCase().includes(query)
-            );
-            renderTable(filtered);
-        }
-
-        function addYear() {
-            let year = document.getElementById('newYearInput').value.trim();
-            if(year) {
-                if(!savedYears.includes(year)) {
-                    savedYears.push(year);
-                    let select = document.getElementById('yearSelect');
-                    let opt = document.createElement('option');
-                    opt.value = year;
-                    opt.innerHTML = year;
-                    select.appendChild(opt);
-                }
-
-                if(!savedMonths[year]) {
-                    savedMonths[year] = ["October", "November"]; 
-                }
-
-                document.getElementById('newYearInput').value = '';
-                document.getElementById('yearSelect').value = year;
-                
-                handleYearChange();
-                saveToLocalStorage();
-                alert('নতুন বছর সফলভাবে যোগ করা হয়েছে!');
-                showPage('dashboardView');
-            } else {
-                alert('দয়া করে বছরের নাম লিখুন!');
-            }
-        }
-
-        function addMonth() {
-            let month = document.getElementById('newMonthInput').value.trim();
-            let year = getCurrentYear();
-            if(month) {
-                if(!savedMonths[year]) savedMonths[year] = [];
-                
-                let exists = savedMonths[year].some(m => m.toLowerCase() === month.toLowerCase());
-                if(exists) {
-                    alert('এই বছর এই মাসটি ইতিমধ্যে তালিকায় রয়েছে!');
-                    return;
-                }
-
-                savedMonths[year].push(month);
-                
-                let select = document.getElementById('monthSelect');
-                let opt = document.createElement('option');
-                opt.value = month;
-                opt.innerHTML = month;
-                select.appendChild(opt);
-
-                if(!allData[year]) allData[year] = {};
-                if(!allData[year].aminul) allData[year].aminul = {};
-                if(!allData[year].nazmul) allData[year].nazmul = {};
-                if(!allData[year].aminul[month]) allData[year].aminul[month] = [];
-                if(!allData[year].nazmul[month]) allData[year].nazmul[month] = [];
-
-                document.getElementById('newMonthInput').value = '';
-                select.value = month;
-                saveToLocalStorage();
-                alert('নতুন মাস সফলভাবে যোগ করা হয়েছে!');
-                showPage('dashboardView');
-            } else {
-                alert('দয়া করে মাসের নাম লিখুন!');
-            }
-        }
-
-        function editCurrentMonth() {
-            let select = document.getElementById('monthSelect');
-            let oldMonth = select.value;
-            let year = getCurrentYear();
-            if (!oldMonth || oldMonth === "কোনো মাস নেই") {
-                alert('দয়া করে প্রথমে একটি মাস সিলেক্ট করুন!');
-                return;
-            }
-
-            let newMonth = prompt('নতুন মাসের নাম লিখুন:', oldMonth);
-            if (newMonth && newMonth.trim() !== "" && newMonth !== oldMonth) {
-                newMonth = newMonth.trim();
-                let exists = savedMonths[year].some(m => m.toLowerCase() === newMonth.toLowerCase());
-                if(exists) {
-                    alert('এই নামের মাস ইতিমধ্যে তালিকায় রয়েছে!');
-                    return;
-                }
-
-                if(!allData[year]) allData[year] = {};
-                if(!allData[year].aminul) allData[year].aminul = {};
-                if(!allData[year].nazmul) allData[year].nazmul = {};
-
-                allData[year].aminul[newMonth] = allData[year].aminul[oldMonth] || [];
-                allData[year].nazmul[newMonth] = allData[year].nazmul[oldMonth] || [];
-                delete allData[year].aminul[oldMonth];
-                delete allData[year].nazmul[oldMonth];
-
-                let monthIndex = savedMonths[year].indexOf(oldMonth);
-                if(monthIndex !== -1) savedMonths[year][monthIndex] = newMonth;
-
-                updateMonthDropdownForCurrentYear();
-                select.value = newMonth;
-                saveToLocalStorage();
-                alert('মাসের নাম সফলভাবে পরিবর্তন করা হয়েছে!');
-                updateDashboard();
-            }
-        }
-
-        // 🌟 চূড়ান্ত ও নিখুঁত সমাধান: ইউজার ড্রপডাউনে যে মাস সিলেক্ট করে এন্ট্রি দেবেন, ঠিক সেই মাসেই ১০০% সেভ হবে।
-        function addEntry() {
-            let year = getCurrentYear();
-            let targetMonth = getCurrentMonth(); // ড্রপডাউনে সিলেক্ট করা মাস (যেমন: October বা November)
-
-            if(!targetMonth || targetMonth === "কোনো মাস নেই") {
-                alert('দয়া করে প্রথমে একটি মাস সিলেক্ট বা তৈরি করুন!');
-                return;
-            }
-
-            let road = Number(document.getElementById('eRoad').value) || 0;
-            let body = Number(document.getElementById('eBody').value) || 0;
-            let tyre = Number(document.getElementById('eTyre').value) || 0;
-            let person = Number(document.getElementById('ePerson').value) || 0;
-            let waste = Number(document.getElementById('eWaste').value) || 0;
-
-            let calculatedAmount = (road * 0.8) + (body * 0.15) + (tyre * 0.4) + (person * 1) + (waste * 0.6);
-
-            let rawDate = document.getElementById('eDate').value;
-            let formattedDate = rawDate;
-            if (rawDate) {
-                let parts = rawDate.split('-');
-                if (parts.length === 3) {
-                    let yr = parts[0].slice(-2);
-                    let mNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-                    let mIdx = parseInt(parts[1], 10) - 1;
-                    let day = parseInt(parts[2], 10);
-                    formattedDate = `${mNames[mIdx]} ${day} ${yr}`;
-                }
-            }
-
-            let newObj = {
-                id: document.getElementById('eId').value.trim(),
-                road: road,
-                body: body,
-                tyre: tyre,
-                person: person,
-                waste: waste,
-                date: formattedDate,
-                amount: Number(calculatedAmount.toFixed(2)),
-                task: Number(document.getElementById('eTask').value) || 0
-            };
-
-            if(!newObj.id || !rawDate) {
-                alert('দয়া করে আইডি এবং তারিখ পূরণ করুন!');
-                return;
-            }
-
-            if(!allData[year]) allData[year] = {};
-            if(!allData[year][currentUser]) allData[year][currentUser] = {};
-            if(!allData[year][currentUser][targetMonth]) allData[year][currentUser][targetMonth] = [];
-            
-            // সরাসরি ইউজার সিলেক্ট করা মাসটিতে এন্ট্রি যোগ করা হচ্ছে
-            allData[year][currentUser][targetMonth].unshift(newObj);
-
-            saveToLocalStorage();
-
-            let sheetData = {
-                id: newObj.id,
-                road: newObj.road,
-                truckBody: newObj.body,
-                tyre: newObj.tyre,
-                person: newObj.person,
-                vehicleMola: newObj.waste,
-                date: newObj.date,
-                amount: newObj.amount,
-                taskSize: newObj.task,
-                personName: currentUser
-            };
-
-            fetch(scriptURL, { 
-                method: 'POST', 
-                mode: 'no-cors',
-                body: JSON.stringify(sheetData) 
-            })
-            .then(() => console.log('Google Sheet এ সফলভাবে সেভ হয়েছে!'))
-            .catch(error => console.error('Error!', error.message));
-
-            redoStack = [];
-            closeModal();
-            updateDashboard();
-        }
-
-        function deleteEntry(index) {
-            if (confirm('আপনি কি এই এন্ট্রিটি মুছে ফেলতে চান?')) {
-                let year = getCurrentYear();
-                let month = getCurrentMonth();
-                let currentDataset = getCurrentData(currentUser);
-                
-                let deletedItem = currentDataset[index];
-                undoStack.push({ year: year, user: currentUser, month: month, index: index, item: deletedItem });
-
-                let deleteData = {
-                    action: 'delete',
-                    id: deletedItem.id
-                };
-
-                fetch(scriptURL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    body: JSON.stringify(deleteData)
-                })
-                .then(() => console.log('Google Sheet থেকে সফলভাবে ডিলিট হয়েছে!'))
-                .catch(error => console.error('Delete Error!', error.message));
-
-                redoStack = [];
-                currentDataset.splice(index, 1);
-                selectedRows.clear();
-                
-                saveToLocalStorage();
-                updateDashboard();
-            }
-        }
-
-        function undoAction() {
-            if (undoStack.length === 0) return;
-            let action = undoStack.pop();
-            redoStack.push(action);
-
-            document.getElementById('yearSelect').value = action.year;
-            updateMonthDropdownForCurrentYear();
-
-            currentUser = action.user;
-            document.getElementById('monthSelect').value = action.month;
-            selectedRows.clear();
-            
-            let btnAminul = document.getElementById('btnAminul');
-            let btnNazmul = document.getElementById('btnNazmul');
-            let mobileBtnAminul = document.getElementById('mobileBtnAminul');
-            let mobileBtnNazmul = document.getElementById('mobileBtnNazmul');
-            const activeClass = "py-2.5 px-3 rounded-xl text-xs font-bold transition cursor-pointer flex items-center justify-center gap-1.5 bg-blue-600 text-white shadow-sm";
-            const inactiveClass = "py-2.5 px-3 rounded-xl text-xs font-bold transition cursor-pointer flex items-center justify-center gap-1.5 text-slate-400 hover:text-white";
-            if (currentUser === 'aminul') {
-                if(btnAminul) btnAminul.className = activeClass;
-                if(btnNazmul) btnNazmul.className = inactiveClass;
-                if(mobileBtnAminul) mobileBtnAminul.className = activeClass;
-                if(mobileBtnNazmul) mobileBtnNazmul.className = inactiveClass;
-            } else {
-                if(btnAminul) btnAminul.className = inactiveClass;
-                if(btnNazmul) btnNazmul.className = activeClass;
-                if(mobileBtnAminul) mobileBtnAminul.className = inactiveClass;
-                if(mobileBtnNazmul) mobileBtnNazmul.className = activeClass;
-            }
-
-            let currentDataset = getCurrentData(currentUser);
-            currentDataset.splice(action.index, 0, action.item);
-
-            let sheetData = {
-                id: action.item.id,
-                road: action.item.road,
-                truckBody: action.item.body,
-                tyre: action.item.tyre,
-                person: action.item.person,
-                vehicleMola: action.item.waste,
-                date: action.item.date,
-                amount: action.item.amount,
-                taskSize: action.item.task,
-                personName: action.user
-            };
-            fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(sheetData) });
-
-            saveToLocalStorage();
-            updateDashboard();
-        }
-
-        function redoAction() {
-            if (redoStack.length === 0) return;
-            let action = redoStack.pop();
-            undoStack.push(action);
-
-            document.getElementById('yearSelect').value = action.year;
-            updateMonthDropdownForCurrentYear();
-
-            currentUser = action.user;
-            document.getElementById('monthSelect').value = action.month;
-            selectedRows.clear();
-
-            let btnAminul = document.getElementById('btnAminul');
-            let btnNazmul = document.getElementById('btnNazmul');
-            let mobileBtnAminul = document.getElementById('mobileBtnAminul');
-            let mobileBtnNazmul = document.getElementById('mobileBtnNazmul');
-            const activeClass = "py-2.5 px-3 rounded-xl text-xs font-bold transition cursor-pointer flex items-center justify-center gap-1.5 bg-blue-600 text-white shadow-sm";
-            const inactiveClass = "py-2.5 px-3 rounded-xl text-xs font-bold transition cursor-pointer flex items-center justify-center gap-1.5 text-slate-400 hover:text-white";
-            if (currentUser === 'aminul') {
-                if(btnAminul) btnAminul.className = activeClass;
-                if(btnNazmul) btnNazmul.className = inactiveClass;
-                if(mobileBtnAminul) mobileBtnAminul.className = activeClass;
-                if(mobileBtnNazmul) mobileBtnNazmul.className = inactiveClass;
-            } else {
-                if(btnAminul) btnAminul.className = inactiveClass;
-                if(btnNazmul) btnNazmul.className = activeClass;
-                if(mobileBtnAminul) mobileBtnAminul.className = inactiveClass;
-                if(mobileBtnNamesNazmul) mobileBtnNazmul.className = activeClass;
-            }
-
-            let currentDataset = getCurrentData(currentUser);
-            currentDataset.splice(action.index, 1);
-
-            let deleteData = { action: 'delete', id: action.item.id };
-            fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(deleteData) });
-
-            saveToLocalStorage();
-            updateDashboard();
-        }
-
-        function fetchLatestDataFromSheet() {
-            fetch(scriptURL + '?action=getData')
-            .then(response => response.json())
-            .then(data => {
-                if (data && data.allData) {
-                    allData = data.allData;
-                    localStorage.setItem('dashboardData', JSON.stringify(allData));
-                    if (data.years) {
-                        savedYears = data.years;
-                        localStorage.setItem('dashboardYears', JSON.stringify(savedYears));
-                    }
-                    if (data.months) {
-                        savedMonths = data.months;
-                        localStorage.setItem('dashboardMonths', JSON.stringify(savedMonths));
-                    }
-                    initYearsAndMonths();
-                    updateDashboard();
-                    console.log('গুগল শিট থেকে সফলভাবে ডেটা সিঙ্ক করা হয়েছে!');
-                }
-            })
-            .catch(err => {
-                console.log('অনলাইন সিঙ্ক ব্যর্থ হয়েছে, লোকাল ডেটা ব্যবহার করা হচ্ছে।', err);
-            });
-        }
-
-        window.onload = function() {
-            initYearsAndMonths();
-            updateDashboard();
-            fetchLatestDataFromSheet();
-        };
-    </script>
+    <div id="monthModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white p-8 rounded-3xl shadow-2xl border border-slate-100 max-w-md w-full space-y-5">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-4"><h2 class="text-lg font-bold text-slate-900">📅 নতুন মাস যোগ করুন</h2><button onclick="closeMonthModal()" class="text-slate-400 hover:text-slate-700 font-bold text-lg p-1">✕</button></div>
+            <div><label class="block text-xs font-semibold text-slate-500 mb-1">মাস সিলেক্ট করুন:</label><select id="modalMonthSelect" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-semibold text-slate-700"></select></div>
+            <div class="flex gap-3 pt-2 border-t border-slate-100"><button onclick="addMonthFromModal()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl text-sm font-semibold transition cursor-pointer shadow-sm">মাস যোগ করুন</button><button onclick="closeMonthModal()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 px-6 py-3 rounded-xl text-sm font-semibold transition cursor-pointer">বাতিল</button></div>
+        </div>
+    </div>
+    <div id="yearModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white p-8 rounded-3xl shadow-2xl border border-slate-100 max-w-md w-full space-y-5">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-4"><h2 class="text-lg font-bold text-slate-900">📁 নতুন বছর যোগ করুন</h2><button onclick="closeYearModal()" class="text-slate-400 hover:text-slate-700 font-bold text-lg p-1">✕</button></div>
+            <div><label class="block text-xs font-semibold text-slate-500 mb-1">বছরের নাম লিখুন বা সিলেক্ট করুন:</label><input type="text" id="modalYearInput" placeholder="যেমন: 2027" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-purple-500 font-semibold text-slate-700"></div>
+            <div class="flex gap-3 pt-2 border-t border-slate-100"><button onclick="addYearFromModal()" class="w-full bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-xl text-sm font-semibold transition cursor-pointer shadow-sm">বছর যোগ করুন</button><button onclick="closeYearModal()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 px-6 py-3 rounded-xl text-sm font-semibold transition cursor-pointer">বাতিল</button></div>
+        </div>
+    </div>
+<script>
+let currentUser='aminul', incomeChart;
+let undoStack=[], redoStack=[], selectedRows=new Set();
+let scriptURL='https://script.google.com/macros/s/AKfycbxSyur2n0fo0qrexHtYFaTJi0qWqxenVxl10NSwRfQL5rQjRvmmYFtUKSrOEAPI-y_fHQ/exec';
+let allData=JSON.parse(localStorage.getItem('dashboardData'));
+let savedYears=JSON.parse(localStorage.getItem('dashboardYears'));
+let savedMonths=JSON.parse(localStorage.getItem('dashboardMonths'));
+if(!savedYears){savedYears=["2026","2027"];localStorage.setItem('dashboardYears',JSON.stringify(savedYears));}
+const defaultFullMonths=["January","February","March","April","May","June","July","August","September","October","November","December"];
+if(!savedMonths){savedMonths={"2026":[...defaultFullMonths],"2027":[...defaultFullMonths]};localStorage.setItem('dashboardMonths',JSON.stringify(savedMonths));}
+else {savedYears.forEach(yr=>{if(!savedMonths[yr])savedMonths[yr]=[...defaultFullMonths];});}
+if(!allData){
+ allData={"2026":{aminul:{October:[]},nazmul:{October:[]}}};
+ savedYears.forEach(yr=>{if(!allData[yr])allData[yr]={aminul:{},nazmul:{}};defaultFullMonths.forEach(m=>{if(!allData[yr].aminul[m])allData[yr].aminul[m]=[];if(!allData[yr].nazmul[m])allData[yr].nazmul[m]=[];});});
+ localStorage.setItem('dashboardData',JSON.stringify(allData));
+}
+function getCurrentYear(){let s=document.getElementById('yearSelect');return s?s.value:"2026";}
+function getCurrentMonth(){let s=document.getElementById('monthSelect');return s?s.value:"";}
+function saveToLocalStorage(){
+ localStorage.setItem('dashboardData',JSON.stringify(allData));
+ let yearsList=[];let ys=document.getElementById('yearSelect');for(let opt of ys.options)yearsList.push(opt.value);
+ localStorage.setItem('dashboardYears',JSON.stringify(yearsList));
+ let monthsMap={};for(let yr of yearsList)monthsMap[yr]=savedMonths[yr]||defaultFullMonths;
+ localStorage.setItem('dashboardMonths',JSON.stringify(monthsMap));
+}
+function exportData(){
+ let exportObj={allData,years:savedYears,months:savedMonths};
+ let dataStr="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(exportObj,null,2));
+ let a=document.createElement('a');a.setAttribute("href",dataStr);a.setAttribute("download","dashboard_backup_"+new Date().toISOString().slice(0,10)+".json");
+ document.body.appendChild(a);a.click();a.remove();alert('ব্যাকআপ ফাইলটি ডাউনলোড ফোল্ডারে সেভ হয়েছে!');
+}
+function importData(event){
+ let file=event.target.files[0];if(!file)return;let reader=new FileReader();
+ reader.onload=function(e){try{let obj=JSON.parse(e.target.result);if(obj.allData){allData=obj.allData;localStorage.setItem('dashboardData',JSON.stringify(allData));
+ if(obj.years){savedYears=obj.years;localStorage.setItem('dashboardYears',JSON.stringify(savedYears));}
+ if(obj.months){savedMonths=obj.months;localStorage.setItem('dashboardMonths',JSON.stringify(savedMonths));}
+ initYearsAndMonths();alert('সফলভাবে ব্যাকআপ ডেটা রিস্টোর করা হয়েছে!');updateDashboard();
+ }else alert('ফাইলটির ফরম্যাট সঠিক নয়!');}catch(err){alert('ডেটা রিড করতে সমস্যা হয়েছে!');}};
+ reader.readAsText(file);event.target.value='';
+}
+function initYearsAndMonths(){
+ let ys=document.getElementById('yearSelect');ys.innerHTML='';
+ const years=new Set(savedYears.map(String));for(let y=2000;y<=2050;y++)years.add(String(y));
+ savedYears=Array.from(years).sort((a,b)=>Number(a)-Number(b));
+ savedYears.forEach(y=>{let opt=document.createElement('option');opt.value=y;opt.textContent=y;ys.appendChild(opt);if(!savedMonths[y])savedMonths[y]=[...defaultFullMonths];if(!allData[y])allData[y]={aminul:{},nazmul:{}};});
+ localStorage.setItem('dashboardYears',JSON.stringify(savedYears));localStorage.setItem('dashboardMonths',JSON.stringify(savedMonths));localStorage.setItem('dashboardData',JSON.stringify(allData));
+ const currentYear=String(new Date().getFullYear());
+ const savedSelectedYear=localStorage.getItem('selectedYear');
+ ys.value=savedYears.includes(savedSelectedYear)?savedSelectedYear:(savedYears.includes(currentYear)?currentYear:(savedYears.includes('2026')?'2026':savedYears[0]));
+ updateMonthDropdownForCurrentYear();
+}
+function updateMonthDropdownForCurrentYear(){
+ const year=getCurrentYear(), ms=document.getElementById('monthSelect');
+ const previousMonth=ms.value, savedMonth=localStorage.getItem('selectedMonth_'+year);
+ ms.innerHTML='';
+ let months=defaultFullMonths.filter(m=>(savedMonths[year]||defaultFullMonths).includes(m));
+ if(months.length===0)months=[...defaultFullMonths];
+ months.forEach(m=>{let opt=document.createElement('option');opt.value=m;opt.textContent=m;ms.appendChild(opt);});
+ if(savedMonth&&months.includes(savedMonth))ms.value=savedMonth;
+ else if(months.includes(previousMonth))ms.value=previousMonth;
+ else ms.value=months[0];
+ localStorage.setItem('selectedMonth_'+year,ms.value);
+}
+function getCurrentData(user){
+ let y=getCurrentYear(),m=getCurrentMonth();if(!allData[y])allData[y]={};if(!allData[y][user])allData[y][user]={};if(!allData[y][user][m])allData[y][user][m]=[];return allData[y][user][m];
+}
+function showPage(id){document.getElementById('dashboardView').classList.add('hidden');document.getElementById(id).classList.remove('hidden');if(id==='dashboardView')updateDashboard();}
+function openModal(){let m=getCurrentMonth();if(!m||m==="কোনো মাস নেই"){alert('দয়া করে প্রথমে একটি মাস সিলেক্ট করুন!');return;}document.getElementById('entryModal').classList.remove('hidden');document.getElementById('entryModal').classList.add('flex');document.getElementById('eDate').value=new Date().toISOString().slice(0,10);}
+function closeModal(){document.getElementById('entryModal').classList.add('hidden');document.getElementById('entryModal').classList.remove('flex');document.querySelectorAll('#entryModal input').forEach(i=>i.value='');}
+function openMonthModal(){const s=document.getElementById('modalMonthSelect');s.innerHTML='';defaultFullMonths.forEach(m=>{let o=document.createElement('option');o.value=m;o.textContent=m;s.appendChild(o);});const cm=getCurrentMonth();s.value=defaultFullMonths.includes(cm)?cm:'January';document.getElementById('monthModal').classList.remove('hidden');document.getElementById('monthModal').classList.add('flex');}
+function closeMonthModal(){document.getElementById('monthModal').classList.add('hidden');document.getElementById('monthModal').classList.remove('flex');}
+function addMonthFromModal(){
+ let month=document.getElementById('modalMonthSelect').value, year=getCurrentYear();
+ if(!savedMonths[year])savedMonths[year]=[...defaultFullMonths];if(!savedMonths[year].includes(month))savedMonths[year].push(month);
+ updateMonthDropdownForCurrentYear();document.getElementById('monthSelect').value=month;
+ localStorage.setItem('selectedYear',year);localStorage.setItem('selectedMonth_'+year,month);
+ if(!allData[year])allData[year]={};if(!allData[year].aminul)allData[year].aminul={};if(!allData[year].nazmul)allData[year].nazmul={};
+ if(!allData[year].aminul[month])allData[year].aminul[month]=[];if(!allData[year].nazmul[month])allData[year].nazmul[month]=[];
+ saveToLocalStorage();closeMonthModal();updateDashboard();
+}
+function openYearModal(){document.getElementById('yearModal').classList.remove('hidden');document.getElementById('yearModal').classList.add('flex');document.getElementById('modalYearInput').value=new Date().getFullYear()+1;}
+function closeYearModal(){document.getElementById('yearModal').classList.add('hidden');document.getElementById('yearModal').classList.remove('flex');}
+function addYearFromModal(){
+ let year=document.getElementById('modalYearInput').value.trim();if(year){
+ if(!savedYears.includes(year)){savedYears.push(year);let s=document.getElementById('yearSelect'),o=document.createElement('option');o.value=year;o.textContent=year;s.appendChild(o);}
+ if(!savedMonths[year])savedMonths[year]=[...defaultFullMonths];
+ document.getElementById('yearSelect').value=year;handleYearChange();saveToLocalStorage();closeYearModal();alert('নতুন বছর সফলভাবে যোগ করা হয়েছে!');
+ }else alert('দয়া করে বছরের নাম লিখুন!');
+}
+function toggleMobileDrawer(){let d=document.getElementById('mobileDrawer');d.classList.toggle('hidden');}
+function handleYearChange(){localStorage.setItem('selectedYear',getCurrentYear());updateMonthDropdownForCurrentYear();selectedRows.clear();updateSelectedTotal();updateDashboard();}
+function handleMonthChange(){const y=getCurrentYear(),m=getCurrentMonth();localStorage.setItem('selectedYear',y);localStorage.setItem('selectedMonth_'+y,m);selectedRows.clear();updateSelectedTotal();updateDashboard();}
+function updateDashboard(){let data=getCurrentData(currentUser);renderTable(data);updateChart(data,currentUser==='aminul'?'aminul':'Nazmul');updateUndoRedoButtons();updateSelectedTotal();}
+function toggleChartVisibility(){let c=document.getElementById('chartContainer'),b=document.getElementById('toggleChartBtn');if(c.classList.contains('hidden')){c.classList.remove('hidden');b.innerHTML='👁️ চার্ট লুকান';b.className="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer";}else{c.classList.add('hidden');b.innerHTML='📈 চার্ট দেখান';b.className="bg-blue-50 hover:bg-blue-100 text-blue-700 px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer";}}
+function updateUndoRedoButtons(){
+ let u=document.getElementById('undoBtn'),r=document.getElementById('redoBtn');
+ u.disabled=undoStack.length===0;u.className=undoStack.length?"w-10 h-10 flex items-center justify-center rounded-xl text-slate-700 bg-white hover:bg-slate-50 shadow-sm transition cursor-pointer text-base":"w-10 h-10 flex items-center justify-center rounded-xl text-slate-300 bg-white/50 shadow-none transition cursor-not-allowed text-base";
+ r.disabled=redoStack.length===0;r.className=redoStack.length?"w-10 h-10 flex items-center justify-center rounded-xl text-slate-700 bg-white hover:bg-slate-50 shadow-sm transition cursor-pointer text-base":"w-10 h-10 flex items-center justify-center rounded-xl text-slate-300 bg-white/50 shadow-none transition cursor-not-allowed text-base";
+}
+function calculateTotals(){
+ let y=getCurrentYear(),m=getCurrentMonth();
+ let a=(allData[y]&&allData[y].aminul&&allData[y].aminul[m])?allData[y].aminul[m]:[];
+ let n=(allData[y]&&allData[y].nazmul&&allData[y].nazmul[m])?allData[y].nazmul[m]:[];
+ let as=a.reduce((s,i)=>s+i.amount,0),ns=n.reduce((s,i)=>s+i.amount,0),cs=as+ns;
+ document.getElementById('aminulTotal').innerText=`৳ ${as.toLocaleString('en-US',{minimumFractionDigits:2})}`;
+ document.getElementById('nazmulTotal').innerText=`৳ ${ns.toLocaleString('en-US',{minimumFractionDigits:2})}`;
+ document.getElementById('combinedTotal').innerText=`৳ ${cs.toLocaleString('en-US',{minimumFractionDigits:2})}`;
+ let active=currentUser==='aminul'?as:ns;document.getElementById('tableHeaderTotal').innerHTML=`অ্যামাউন্ট (H - অটো)<br><span class="text-xs font-normal">টোটাল: ৳ ${active.toLocaleString('en-US',{minimumFractionDigits:2})}</span>`;
+}
+function renderTable(data){
+ const tbody=document.getElementById('tableBody');tbody.innerHTML='';
+ data.forEach((item,index)=>{
+ let tr=document.createElement('tr');tr.className="hover:bg-slate-50/80 transition";
+ let selected=selectedRows.has(index),bg=selected?'bg-pink-200 text-pink-900 font-bold':'bg-emerald-50/50 text-emerald-600 font-semibold';
+ let date=item.date;if(date&&date.includes('GMT')){let d=new Date(date);if(!isNaN(d)){let mn=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];date=`${mn[d.getMonth()]} ${d.getDate()} ${d.getFullYear().toString().slice(-2)}`;}}
+ tr.innerHTML=`<td class="p-3.5 font-medium">ID: ${item.id}</td><td class="p-3.5">${item.road}</td><td class="p-3.5">${item.body}</td><td class="p-3.5">${item.tyre}</td><td class="p-3.5">${item.person}</td><td class="p-3.5">${item.waste}</td><td class="p-3.5">${date}</td><td class="p-3.5 ${bg} cursor-pointer transition select-none" onclick="toggleAmountSelection(${index},this,${item.amount})">${item.amount}</td><td class="p-3.5">${item.task}</td><td class="p-3.5 font-medium text-slate-800">${currentUser}</td><td class="p-3.5 text-center"><button onclick="deleteEntry(${index})" class="text-red-500 hover:text-red-700 text-xs font-medium bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-lg transition cursor-pointer">মুছুন</button></td>`;
+ tbody.appendChild(tr);
+ });calculateTotals();
+}
+function toggleAmountSelection(index,cell,amount){if(selectedRows.has(index)){selectedRows.delete(index);cell.className="p-3.5 bg-emerald-50/50 text-emerald-600 font-semibold cursor-pointer transition select-none";}else{selectedRows.add(index);cell.className="p-3.5 bg-pink-200 text-pink-900 font-bold cursor-pointer transition select-none";}updateSelectedTotal();}
+function updateSelectedTotal(){let data=getCurrentData(currentUser),sum=0;selectedRows.forEach(i=>{if(data[i])sum+=data[i].amount;});document.getElementById('selectedTotal').innerText=`৳ ${sum.toLocaleString('en-US',{minimumFractionDigits:2})}`;}
+function updateChart(data,userName){
+ const ctx=document.getElementById('incomeChart').getContext('2d');let map={};
+ data.forEach(item=>{let d=item.date;if(d&&d.includes('GMT')){let dt=new Date(d);if(!isNaN(dt)){let mn=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];d=`${mn[dt.getMonth()]} ${dt.getDate()} ${dt.getFullYear().toString().slice(-2)}`;}}if(!map[d])map[d]=0;map[d]+=item.amount;});
+ if(incomeChart)incomeChart.destroy();document.getElementById('chartTitle').innerText=`📈 ইনকামের হিস্টোগ্রাম চার্ট (${userName}) - ${getCurrentMonth()} (${getCurrentYear()})`;
+ incomeChart=new Chart(ctx,{type:'bar',data:{labels:Object.keys(map),datasets:[{label:'মোট অ্যামাউন্ট',data:Object.values(map),backgroundColor:userName==='aminul'?'#0284c7':'#6366f1',borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}});
+}
+function switchUser(user){
+ currentUser=user;selectedRows.clear();
+ const ids=['btnAminul','btnNazmul','mobileBtnAminul','mobileBtnNazmul'];
+ const active="py-2.5 px-3 rounded-xl text-xs font-bold transition cursor-pointer flex items-center justify-center gap-1.5 bg-blue-600 text-white shadow-sm";
+ const inactive="py-2.5 px-3 rounded-xl text-xs font-bold transition cursor-pointer flex items-center justify-center gap-1.5 text-slate-400 hover:text-white";
+ const activeMobile="py-2.5 px-3 rounded-xl text-xs font-bold bg-blue-600 text-white";
+ const inactiveMobile="py-2.5 px-3 rounded-xl text-xs font-bold text-slate-400 hover:text-white";
+ document.getElementById('btnAminul').className=user==='aminul'?active:inactive;
+ document.getElementById('btnNazmul').className=user==='nazmul'?active:inactive;
+ document.getElementById('mobileBtnAminul').className=user==='aminul'?activeMobile:inactiveMobile;
+ document.getElementById('mobileBtnNazmul').className=user==='nazmul'?activeMobile:inactiveMobile;
+ updateDashboard();
+}
+function filterTable(){
+ let q=document.getElementById('searchInput').value.toLowerCase(),data=getCurrentData(currentUser);
+ let filtered=data.filter(i=>String(i.id).toLowerCase().includes(q)||String(i.date).toLowerCase().includes(q));renderTable(filtered);
+}
+function addEntry(){
+ let y=getCurrentYear(),m=getCurrentMonth();if(!m){alert('দয়া করে প্রথমে একটি মাস সিলেক্ট করুন!');return;}
+ let road=Number(document.getElementById('eRoad').value)||0,body=Number(document.getElementById('eBody').value)||0,tyre=Number(document.getElementById('eTyre').value)||0,person=Number(document.getElementById('ePerson').value)||0,waste=Number(document.getElementById('eWaste').value)||0;
+ let amount=(road*.8)+(body*.15)+(tyre*.4)+(person*1)+(waste*.6),raw=document.getElementById('eDate').value,formatted=raw;
+ if(raw){let p=raw.split('-');if(p.length===3){let mn=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];formatted=`${mn[Number(p[1])-1]} ${Number(p[2])} ${p[0].slice(-2)}`;}}
+ let obj={id:document.getElementById('eId').value.trim(),road,body,tyre,person,waste,date:formatted,amount:Number(amount.toFixed(2)),task:Number(document.getElementById('eTask').value)||0};
+ if(!obj.id||!raw){alert('দয়া করে আইডি এবং তারিখ পূরণ করুন!');return;}
+ if(!allData[y])allData[y]={};if(!allData[y][currentUser])allData[y][currentUser]={};if(!allData[y][currentUser][m])allData[y][currentUser][m]=[];
+ allData[y][currentUser][m].unshift(obj);saveToLocalStorage();
+ let sheet={id:obj.id,road:obj.road,truckBody:obj.body,tyre:obj.tyre,person:obj.person,vehicleMola:obj.waste,date:obj.date,amount:obj.amount,taskSize:obj.task,personName:currentUser};
+ fetch(scriptURL,{method:'POST',mode:'no-cors',body:JSON.stringify(sheet)}).then(()=>console.log('Google Sheet এ সফলভাবে সেভ হয়েছে!')).catch(e=>console.error('Error!',e.message));
+ redoStack=[];closeModal();updateDashboard();
+}
+function deleteEntry(index){
+ if(!confirm('আপনি কি এই এন্ট্রিটি মুছে ফেলতে চান?'))return;
+ let y=getCurrentYear(),m=getCurrentMonth(),data=getCurrentData(currentUser),item=data[index];undoStack.push({year:y,user:currentUser,month:m,index,item});
+ fetch(scriptURL,{method:'POST',mode:'no-cors',body:JSON.stringify({action:'delete',id:item.id})}).catch(e=>console.error('Delete Error!',e.message));
+ redoStack=[];data.splice(index,1);selectedRows.clear();saveToLocalStorage();updateDashboard();
+}
+function setUserButtons(){
+ const a=document.getElementById('btnAminul'),n=document.getElementById('btnNazmul'),ma=document.getElementById('mobileBtnAminul'),mn=document.getElementById('mobileBtnNazmul');
+ const active="py-2.5 px-3 rounded-xl text-xs font-bold transition cursor-pointer flex items-center justify-center gap-1.5 bg-blue-600 text-white shadow-sm",inactive="py-2.5 px-3 rounded-xl text-xs font-bold transition cursor-pointer flex items-center justify-center gap-1.5 text-slate-400 hover:text-white";
+ a.className=currentUser==='aminul'?active:inactive;n.className=currentUser==='nazmul'?active:inactive;
+ ma.className=currentUser==='aminul'?'py-2.5 px-3 rounded-xl text-xs font-bold bg-blue-600 text-white':'py-2.5 px-3 rounded-xl text-xs font-bold text-slate-400 hover:text-white';
+ mn.className=currentUser==='nazmul'?'py-2.5 px-3 rounded-xl text-xs font-bold bg-blue-600 text-white':'py-2.5 px-3 rounded-xl text-xs font-bold text-slate-400 hover:text-white';
+}
+function undoAction(){
+ if(!undoStack.length)return;let action=undoStack.pop();redoStack.push(action);
+ document.getElementById('yearSelect').value=action.year;updateMonthDropdownForCurrentYear();currentUser=action.user;document.getElementById('monthSelect').value=action.month;
+ localStorage.setItem('selectedYear',action.year);localStorage.setItem('selectedMonth_'+action.year,action.month);selectedRows.clear();setUserButtons();
+ let data=getCurrentData(currentUser);data.splice(action.index,0,action.item);
+ let i=action.item;fetch(scriptURL,{method:'POST',mode:'no-cors',body:JSON.stringify({id:i.id,road:i.road,truckBody:i.body,tyre:i.tyre,person:i.person,vehicleMola:i.waste,date:i.date,amount:i.amount,taskSize:i.task,personName:action.user})});
+ saveToLocalStorage();updateDashboard();
+}
+function redoAction(){
+ if(!redoStack.length)return;let action=redoStack.pop();undoStack.push(action);
+ document.getElementById('yearSelect').value=action.year;updateMonthDropdownForCurrentYear();currentUser=action.user;document.getElementById('monthSelect').value=action.month;
+ localStorage.setItem('selectedYear',action.year);localStorage.setItem('selectedMonth_'+action.year,action.month);selectedRows.clear();setUserButtons();
+ let data=getCurrentData(currentUser);data.splice(action.index,1);
+ fetch(scriptURL,{method:'POST',mode:'no-cors',body:JSON.stringify({action:'delete',id:action.item.id})});
+ saveToLocalStorage();updateDashboard();
+}
+window.onload=function(){initYearsAndMonths();updateDashboard();};
+</script>
 </body>
 </html>
