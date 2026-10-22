@@ -311,7 +311,31 @@ function redoAction(){
  fetch(scriptURL,{method:'POST',mode:'no-cors',body:JSON.stringify({action:'delete',id:action.item.id})});
  saveToLocalStorage();updateDashboard();
 }
-window.onload=function(){initYearsAndMonths();updateDashboard();};
+window.onload = function() {
+    fetch(scriptURL)
+        .then(response => response.json())
+        .then(res => {
+            if (res && res.allData) {
+                allData = res.allData;
+                if (res.years) {
+                    savedYears = res.years;
+                    localStorage.setItem('dashboardYears', JSON.stringify(savedYears));
+                }
+                if (res.months) {
+                    savedMonths = res.months;
+                    localStorage.setItem('dashboardMonths', JSON.stringify(savedMonths));
+                }
+                localStorage.setItem('dashboardData', JSON.stringify(allData));
+            }
+            initYearsAndMonths();
+            updateDashboard();
+        })
+        .catch(err => {
+            console.log('Online data fetch failed, using local storage.', err);
+            initYearsAndMonths();
+            updateDashboard();
+        });
+};
 </script>
 </body>
 </html>
