@@ -128,34 +128,42 @@
 <script>
 let currentUser='aminul', incomeChart;
 let undoStack=[], redoStack=[], selectedRows=new Set();
-let scriptURL='https://script.google.com/macros/s/AKfycbzC7YVwxWVPIIv-msOqmXH_HvCgPJ9bvn-N0cVBCHg4_R6uf833bR2ZCzdVWpN-a6rPGg/exec';
+let scriptURL='https://script.google.com/macros/s/AKfycbzBjdREAfSLt4Exr7L3MpZDmdWV5VzLh-tmUSXrr9oNEpx_wf2e26sn6D8qQzLSUyiHUQ/exec';
+
+// লোকাল স্টোরেজ থেকে ডেটা ইনিশিয়ালাইজেশন
 let allData=JSON.parse(localStorage.getItem('dashboardData'));
 let savedYears=JSON.parse(localStorage.getItem('dashboardYears'));
 let savedMonths=JSON.parse(localStorage.getItem('dashboardMonths'));
+
 if(!savedYears){savedYears=["2026","2027"];localStorage.setItem('dashboardYears',JSON.stringify(savedYears));}
 const defaultFullMonths=["January","February","March","April","May","June","July","August","September","October","November","December"];
 if(!savedMonths){savedMonths={"2026":[...defaultFullMonths],"2027":[...defaultFullMonths]};localStorage.setItem('dashboardMonths',JSON.stringify(savedMonths));}
 else {savedYears.forEach(yr=>{if(!savedMonths[yr])savedMonths[yr]=[...defaultFullMonths];});}
+
 if(!allData){
  allData={"2026":{aminul:{October:[]},nazmul:{October:[]}}};
  savedYears.forEach(yr=>{if(!allData[yr])allData[yr]={aminul:{},nazmul:{}};defaultFullMonths.forEach(m=>{if(!allData[yr].aminul[m])allData[yr].aminul[m]=[];if(!allData[yr].nazmul[m])allData[yr].nazmul[m]=[];});});
  localStorage.setItem('dashboardData',JSON.stringify(allData));
 }
+
 function getCurrentYear(){let s=document.getElementById('yearSelect');return s?s.value:"2026";}
 function getCurrentMonth(){let s=document.getElementById('monthSelect');return s?s.value:"";}
+
 function saveToLocalStorage(){
  localStorage.setItem('dashboardData',JSON.stringify(allData));
- let yearsList=[];let ys=document.getElementById('yearSelect');for(let opt of ys.options)yearsList.push(opt.value);
- localStorage.setItem('dashboardYears',JSON.stringify(yearsList));
- let monthsMap={};for(let yr of yearsList)monthsMap[yr]=savedMonths[yr]||defaultFullMonths;
+ let yearsList=[];let ys=document.getElementById('yearSelect');if(ys){for(let opt of ys.options)yearsList.push(opt.value);}
+ if(yearsList.length > 0) localStorage.setItem('dashboardYears',JSON.stringify(yearsList));
+ let monthsMap={};for(let yr of (yearsList.length ? yearsList : savedYears))monthsMap[yr]=savedMonths[yr]||defaultFullMonths;
  localStorage.setItem('dashboardMonths',JSON.stringify(monthsMap));
 }
+
 function exportData(){
  let exportObj={allData,years:savedYears,months:savedMonths};
  let dataStr="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(exportObj,null,2));
  let a=document.createElement('a');a.setAttribute("href",dataStr);a.setAttribute("download","dashboard_backup_"+new Date().toISOString().slice(0,10)+".json");
  document.body.appendChild(a);a.click();a.remove();alert('ব্যাকআপ ফাইলটি ডাউনলোড ফোল্ডারে সেভ হয়েছে!');
 }
+
 function importData(event){
  let file=event.target.files[0];if(!file)return;let reader=new FileReader();
  reader.onload=function(e){try{let obj=JSON.parse(e.target.result);if(obj.allData){allData=obj.allData;localStorage.setItem('dashboardData',JSON.stringify(allData));
@@ -165,6 +173,7 @@ function importData(event){
  }else alert('ফাইলটির ফরম্যাট সঠিক নয়!');}catch(err){alert('ডেটা রিড করতে সমস্যা হয়েছে!');}};
  reader.readAsText(file);event.target.value='';
 }
+
 function initYearsAndMonths(){
  let ys=document.getElementById('yearSelect');ys.innerHTML='';
  const years=new Set(savedYears.map(String));for(let y=2000;y<=2050;y++)years.add(String(y));
@@ -176,6 +185,7 @@ function initYearsAndMonths(){
  ys.value=savedYears.includes(savedSelectedYear)?savedSelectedYear:(savedYears.includes(currentYear)?currentYear:(savedYears.includes('2026')?'2026':savedYears[0]));
  updateMonthDropdownForCurrentYear();
 }
+
 function updateMonthDropdownForCurrentYear(){
  const year=getCurrentYear(), ms=document.getElementById('monthSelect');
  const previousMonth=ms.value, savedMonth=localStorage.getItem('selectedMonth_'+year);
@@ -188,14 +198,17 @@ function updateMonthDropdownForCurrentYear(){
  else ms.value=months[0];
  localStorage.setItem('selectedMonth_'+year,ms.value);
 }
+
 function getCurrentData(user){
  let y=getCurrentYear(),m=getCurrentMonth();if(!allData[y])allData[y]={};if(!allData[y][user])allData[y][user]={};if(!allData[y][user][m])allData[y][user][m]=[];return allData[y][user][m];
 }
+
 function showPage(id){document.getElementById('dashboardView').classList.add('hidden');document.getElementById(id).classList.remove('hidden');if(id==='dashboardView')updateDashboard();}
 function openModal(){let m=getCurrentMonth();if(!m||m==="কোনো মাস নেই"){alert('দয়া করে প্রথমে একটি মাস সিলেক্ট করুন!');return;}document.getElementById('entryModal').classList.remove('hidden');document.getElementById('entryModal').classList.add('flex');document.getElementById('eDate').value=new Date().toISOString().slice(0,10);}
 function closeModal(){document.getElementById('entryModal').classList.add('hidden');document.getElementById('entryModal').classList.remove('flex');document.querySelectorAll('#entryModal input').forEach(i=>i.value='');}
 function openMonthModal(){const s=document.getElementById('modalMonthSelect');s.innerHTML='';defaultFullMonths.forEach(m=>{let o=document.createElement('option');o.value=m;o.textContent=m;s.appendChild(o);});const cm=getCurrentMonth();s.value=defaultFullMonths.includes(cm)?cm:'January';document.getElementById('monthModal').classList.remove('hidden');document.getElementById('monthModal').classList.add('flex');}
 function closeMonthModal(){document.getElementById('monthModal').classList.add('hidden');document.getElementById('monthModal').classList.remove('flex');}
+
 function addMonthFromModal(){
  let month=document.getElementById('modalMonthSelect').value, year=getCurrentYear();
  if(!savedMonths[year])savedMonths[year]=[...defaultFullMonths];if(!savedMonths[year].includes(month))savedMonths[year].push(month);
@@ -205,8 +218,10 @@ function addMonthFromModal(){
  if(!allData[year].aminul[month])allData[year].aminul[month]=[];if(!allData[year].nazmul[month])allData[year].nazmul[month]=[];
  saveToLocalStorage();closeMonthModal();updateDashboard();
 }
+
 function openYearModal(){document.getElementById('yearModal').classList.remove('hidden');document.getElementById('yearModal').classList.add('flex');document.getElementById('modalYearInput').value=new Date().getFullYear()+1;}
 function closeYearModal(){document.getElementById('yearModal').classList.add('hidden');document.getElementById('yearModal').classList.remove('flex');}
+
 function addYearFromModal(){
  let year=document.getElementById('modalYearInput').value.trim();if(year){
  if(!savedYears.includes(year)){savedYears.push(year);let s=document.getElementById('yearSelect'),o=document.createElement('option');o.value=year;o.textContent=year;s.appendChild(o);}
@@ -214,16 +229,20 @@ function addYearFromModal(){
  document.getElementById('yearSelect').value=year;handleYearChange();saveToLocalStorage();closeYearModal();alert('নতুন বছর সফলভাবে যোগ করা হয়েছে!');
  }else alert('দয়া করে বছরের নাম লিখুন!');
 }
+
 function toggleMobileDrawer(){let d=document.getElementById('mobileDrawer');d.classList.toggle('hidden');}
 function handleYearChange(){localStorage.setItem('selectedYear',getCurrentYear());updateMonthDropdownForCurrentYear();selectedRows.clear();updateSelectedTotal();updateDashboard();}
 function handleMonthChange(){const y=getCurrentYear(),m=getCurrentMonth();localStorage.setItem('selectedYear',y);localStorage.setItem('selectedMonth_'+y,m);selectedRows.clear();updateSelectedTotal();updateDashboard();}
 function updateDashboard(){let data=getCurrentData(currentUser);renderTable(data);updateChart(data,currentUser==='aminul'?'aminul':'Nazmul');updateUndoRedoButtons();updateSelectedTotal();}
 function toggleChartVisibility(){let c=document.getElementById('chartContainer'),b=document.getElementById('toggleChartBtn');if(c.classList.contains('hidden')){c.classList.remove('hidden');b.innerHTML='👁️ চার্ট লুকান';b.className="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer";}else{c.classList.add('hidden');b.innerHTML='📈 চার্ট দেখান';b.className="bg-blue-50 hover:bg-blue-100 text-blue-700 px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer";}}
+
 function updateUndoRedoButtons(){
  let u=document.getElementById('undoBtn'),r=document.getElementById('redoBtn');
+ if(!u || !r) return;
  u.disabled=undoStack.length===0;u.className=undoStack.length?"w-10 h-10 flex items-center justify-center rounded-xl text-slate-700 bg-white hover:bg-slate-50 shadow-sm transition cursor-pointer text-base":"w-10 h-10 flex items-center justify-center rounded-xl text-slate-300 bg-white/50 shadow-none transition cursor-not-allowed text-base";
  r.disabled=redoStack.length===0;r.className=redoStack.length?"w-10 h-10 flex items-center justify-center rounded-xl text-slate-700 bg-white hover:bg-slate-50 shadow-sm transition cursor-pointer text-base":"w-10 h-10 flex items-center justify-center rounded-xl text-slate-300 bg-white/50 shadow-none transition cursor-not-allowed text-base";
 }
+
 function calculateTotals(){
  let y=getCurrentYear(),m=getCurrentMonth();
  let a=(allData[y]&&allData[y].aminul&&allData[y].aminul[m])?allData[y].aminul[m]:[];
@@ -234,6 +253,7 @@ function calculateTotals(){
  document.getElementById('combinedTotal').innerText=`৳ ${cs.toLocaleString('en-US',{minimumFractionDigits:2})}`;
  let active=currentUser==='aminul'?as:ns;document.getElementById('tableHeaderTotal').innerHTML=`অ্যামাউন্ট (H - অটো)<br><span class="text-xs font-normal">টোটাল: ৳ ${active.toLocaleString('en-US',{minimumFractionDigits:2})}</span>`;
 }
+
 function renderTable(data){
  const tbody=document.getElementById('tableBody');tbody.innerHTML='';
  data.forEach((item,index)=>{
@@ -244,17 +264,19 @@ function renderTable(data){
  tbody.appendChild(tr);
  });calculateTotals();
 }
+
 function toggleAmountSelection(index,cell,amount){if(selectedRows.has(index)){selectedRows.delete(index);cell.className="p-3.5 bg-emerald-50/50 text-emerald-600 font-semibold cursor-pointer transition select-none";}else{selectedRows.add(index);cell.className="p-3.5 bg-pink-200 text-pink-900 font-bold cursor-pointer transition select-none";}updateSelectedTotal();}
 function updateSelectedTotal(){let data=getCurrentData(currentUser),sum=0;selectedRows.forEach(i=>{if(data[i])sum+=data[i].amount;});document.getElementById('selectedTotal').innerText=`৳ ${sum.toLocaleString('en-US',{minimumFractionDigits:2})}`;}
+
 function updateChart(data,userName){
  const ctx=document.getElementById('incomeChart').getContext('2d');let map={};
  data.forEach(item=>{let d=item.date;if(d&&d.includes('GMT')){let dt=new Date(d);if(!isNaN(dt)){let mn=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];d=`${mn[dt.getMonth()]} ${dt.getDate()} ${dt.getFullYear().toString().slice(-2)}`;}}if(!map[d])map[d]=0;map[d]+=item.amount;});
  if(incomeChart)incomeChart.destroy();document.getElementById('chartTitle').innerText=`📈 ইনকামের হিস্টোগ্রাম চার্ট (${userName}) - ${getCurrentMonth()} (${getCurrentYear()})`;
  incomeChart=new Chart(ctx,{type:'bar',data:{labels:Object.keys(map),datasets:[{label:'মোট অ্যামাউন্ট',data:Object.values(map),backgroundColor:userName==='aminul'?'#0284c7':'#6366f1',borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}});
 }
+
 function switchUser(user){
  currentUser=user;selectedRows.clear();
- const ids=['btnAminul','btnNazmul','mobileBtnAminul','mobileBtnNazmul'];
  const active="py-2.5 px-3 rounded-xl text-xs font-bold transition cursor-pointer flex items-center justify-center gap-1.5 bg-blue-600 text-white shadow-sm";
  const inactive="py-2.5 px-3 rounded-xl text-xs font-bold transition cursor-pointer flex items-center justify-center gap-1.5 text-slate-400 hover:text-white";
  const activeMobile="py-2.5 px-3 rounded-xl text-xs font-bold bg-blue-600 text-white";
@@ -265,10 +287,12 @@ function switchUser(user){
  document.getElementById('mobileBtnNazmul').className=user==='nazmul'?activeMobile:inactiveMobile;
  updateDashboard();
 }
+
 function filterTable(){
  let q=document.getElementById('searchInput').value.toLowerCase(),data=getCurrentData(currentUser);
  let filtered=data.filter(i=>String(i.id).toLowerCase().includes(q)||String(i.date).toLowerCase().includes(q));renderTable(filtered);
 }
+
 function addEntry(){
  let y=getCurrentYear(),m=getCurrentMonth();if(!m){alert('দয়া করে প্রথমে একটি মাস সিলেক্ট করুন!');return;}
  let road=Number(document.getElementById('eRoad').value)||0,body=Number(document.getElementById('eBody').value)||0,tyre=Number(document.getElementById('eTyre').value)||0,person=Number(document.getElementById('ePerson').value)||0,waste=Number(document.getElementById('eWaste').value)||0;
@@ -278,62 +302,83 @@ function addEntry(){
  if(!obj.id||!raw){alert('দয়া করে আইডি এবং তারিখ পূরণ করুন!');return;}
  if(!allData[y])allData[y]={};if(!allData[y][currentUser])allData[y][currentUser]={};if(!allData[y][currentUser][m])allData[y][currentUser][m]=[];
  allData[y][currentUser][m].unshift(obj);saveToLocalStorage();
- let sheet={id:obj.id,road:obj.road,truckBody:obj.body,tyre:obj.tyre,person:obj.person,vehicleMola:obj.waste,date:obj.date,amount:obj.amount,taskSize:obj.task,personName:currentUser};
+ let sheet={id:obj.id,road:obj.road,truckBody:obj.body,tyre:obj.tyre,person:obj.person,vehicleMola:obj.waste,date:obj.date,amount:obj.amount,taskSize:obj.task,personName:currentUser,year:y,month:m};
  fetch(scriptURL,{method:'POST',mode:'no-cors',body:JSON.stringify(sheet)}).then(()=>console.log('Google Sheet এ সফলভাবে সেভ হয়েছে!')).catch(e=>console.error('Error!',e.message));
  redoStack=[];closeModal();updateDashboard();
 }
+
 function deleteEntry(index){
  if(!confirm('আপনি কি এই এন্ট্রিটি মুছে ফেলতে চান?'))return;
  let y=getCurrentYear(),m=getCurrentMonth(),data=getCurrentData(currentUser),item=data[index];undoStack.push({year:y,user:currentUser,month:m,index,item});
- fetch(scriptURL,{method:'POST',mode:'no-cors',body:JSON.stringify({action:'delete',id:item.id})}).catch(e=>console.error('Delete Error!',e.message));
+ fetch(scriptURL,{method:'POST',mode:'no-cors',body:JSON.stringify({action:'delete',id:item.id,year:y,month:m,personName:currentUser})}).catch(e=>console.error('Delete Error!',e.message));
  redoStack=[];data.splice(index,1);selectedRows.clear();saveToLocalStorage();updateDashboard();
 }
-function setUserButtons(){
- const a=document.getElementById('btnAminul'),n=document.getElementById('btnNazmul'),ma=document.getElementById('mobileBtnAminul'),mn=document.getElementById('mobileBtnNazmul');
- const active="py-2.5 px-3 rounded-xl text-xs font-bold transition cursor-pointer flex items-center justify-center gap-1.5 bg-blue-600 text-white shadow-sm",inactive="py-2.5 px-3 rounded-xl text-xs font-bold transition cursor-pointer flex items-center justify-center gap-1.5 text-slate-400 hover:text-white";
- a.className=currentUser==='aminul'?active:inactive;n.className=currentUser==='nazmul'?active:inactive;
- ma.className=currentUser==='aminul'?'py-2.5 px-3 rounded-xl text-xs font-bold bg-blue-600 text-white':'py-2.5 px-3 rounded-xl text-xs font-bold text-slate-400 hover:text-white';
- mn.className=currentUser==='nazmul'?'py-2.5 px-3 rounded-xl text-xs font-bold bg-blue-600 text-white':'py-2.5 px-3 rounded-xl text-xs font-bold text-slate-400 hover:text-white';
-}
+
 function undoAction(){
  if(!undoStack.length)return;let action=undoStack.pop();redoStack.push(action);
  document.getElementById('yearSelect').value=action.year;updateMonthDropdownForCurrentYear();currentUser=action.user;document.getElementById('monthSelect').value=action.month;
- localStorage.setItem('selectedYear',action.year);localStorage.setItem('selectedMonth_'+action.year,action.month);selectedRows.clear();setUserButtons();
+ localStorage.setItem('selectedYear',action.year);localStorage.setItem('selectedMonth_'+action.year,action.month);selectedRows.clear();switchUser(action.user);
  let data=getCurrentData(currentUser);data.splice(action.index,0,action.item);
- let i=action.item;fetch(scriptURL,{method:'POST',mode:'no-cors',body:JSON.stringify({id:i.id,road:i.road,truckBody:i.body,tyre:i.tyre,person:i.person,vehicleMola:i.waste,date:i.date,amount:i.amount,taskSize:i.task,personName:action.user})});
+ let i=action.item;fetch(scriptURL,{method:'POST',mode:'no-cors',body:JSON.stringify({id:i.id,road:i.road,truckBody:i.body,tyre:i.tyre,person:i.person,vehicleMola:i.waste,date:i.date,amount:i.amount,taskSize:i.task,personName:action.user,year:action.year,month:action.month})});
  saveToLocalStorage();updateDashboard();
 }
+
 function redoAction(){
  if(!redoStack.length)return;let action=redoStack.pop();undoStack.push(action);
  document.getElementById('yearSelect').value=action.year;updateMonthDropdownForCurrentYear();currentUser=action.user;document.getElementById('monthSelect').value=action.month;
- localStorage.setItem('selectedYear',action.year);localStorage.setItem('selectedMonth_'+action.year,action.month);selectedRows.clear();setUserButtons();
+ localStorage.setItem('selectedYear',action.year);localStorage.setItem('selectedMonth_'+action.year,action.month);selectedRows.clear();switchUser(action.user);
  let data=getCurrentData(currentUser);data.splice(action.index,1);
- fetch(scriptURL,{method:'POST',mode:'no-cors',body:JSON.stringify({action:'delete',id:action.item.id})});
+ fetch(scriptURL,{method:'POST',mode:'no-cors',body:JSON.stringify({action:'delete',id:action.item.id,year:action.year,month:action.month,personName:action.user})});
  saveToLocalStorage();updateDashboard();
 }
+
+// সেফ এবং পারফেক্ট লোডিং লজিক (ডেটা আর কখনো হারাবে না)
 window.onload = function() {
+    // ১. প্রথমে লোকাল স্টোরেজ থেকে ডেটা ইনিশিয়ালাইজ ও রেন্ডার করা হবে যাতে সব ডেটা সাথে সাথে চোখের সামনে চলে আসে
+    initYearsAndMonths();
+    updateDashboard();
+
+    // ২. ব্যাকগ্রাউন্ডে গুগল শিট বা সার্ভার থেকে লেটেস্ট ডেটা সিঙ্ক করার চেষ্টা করা (যদি সার্ভার GET রিকোয়েস্ট সাপোর্ট করে)
     fetch(scriptURL)
         .then(response => response.json())
         .then(res => {
-            if (res && res.allData) {
-                allData = res.allData;
-                if (res.years) {
-                    savedYears = res.years;
-                    localStorage.setItem('dashboardYears', JSON.stringify(savedYears));
-                }
+            if (res && res.allData && Object.keys(res.allData).length > 0) {
+                // সার্ভারে যদি ডেটা থাকে, তবে লোকাল স্টোরেজের সাথে মিলিয়ে আপডেট করে নেওয়া
+                // সার্ভারের ডেটা ও এই ডিভাইসের ডেটা একত্র করা হবে; লোকাল-শুধু ডেটা মুছে ফেলা হবে না
+                const localData = allData || {};
+                const mergedData = JSON.parse(JSON.stringify(res.allData));
+                Object.keys(localData).forEach(year => {
+                    if (!mergedData[year]) mergedData[year] = {};
+                    ['aminul', 'nazmul'].forEach(user => {
+                        if (!mergedData[year][user]) mergedData[year][user] = {};
+                        Object.keys((localData[year] && localData[year][user]) || {}).forEach(month => {
+                            if (!mergedData[year][user][month]) mergedData[year][user][month] = [];
+                            const target = mergedData[year][user][month];
+                            const seen = new Set(target.map(item => String(item.id)));
+                            (localData[year][user][month] || []).forEach(item => {
+                                if (!seen.has(String(item.id))) target.push(item);
+                            });
+                        });
+                    });
+                });
+                allData = mergedData;
+                if (res.years) savedYears = Array.from(new Set([...(savedYears || []), ...res.years])).map(String);
                 if (res.months) {
-                    savedMonths = res.months;
-                    localStorage.setItem('dashboardMonths', JSON.stringify(savedMonths));
+                    Object.keys(res.months).forEach(year => {
+                        if (!savedMonths[year]) savedMonths[year] = [];
+                        savedMonths[year] = Array.from(new Set([...savedMonths[year], ...res.months[year]]));
+                    });
                 }
+                localStorage.setItem('dashboardYears', JSON.stringify(savedYears));
+                localStorage.setItem('dashboardMonths', JSON.stringify(savedMonths));
                 localStorage.setItem('dashboardData', JSON.stringify(allData));
+                initYearsAndMonths();
+                updateDashboard();
             }
-            initYearsAndMonths();
-            updateDashboard();
         })
         .catch(err => {
-            console.log('Online data fetch failed, using local storage.', err);
-            initYearsAndMonths();
-            updateDashboard();
+            // সার্ভার থেকে ফেচ না করতে পারলে কোনো সমস্যা নেই, লোকাল স্টোরেজের ডেটা অক্ষুণ্ণ থাকবে।
+            console.log('Using local secure storage data.');
         });
 };
 </script>
